@@ -10,7 +10,7 @@ export default function Home() {
     return (
         <>
             {/* Header */}
-            <ClayLayout.ContainerFluid className="mt-4">
+            <ClayLayout.Container className="mt-4">
                 <ClayLayout.ContentRow className="align-items-center">
                     <ClayLayout.ContentCol>
                         <p className="text-5 text-black mb-1 font-weight-semi-bold">RecipeHub</p>
@@ -40,10 +40,10 @@ export default function Home() {
                         </ClayLayout.ContentRow>
                     </ClayLayout.ContentCol>
                 </ClayLayout.ContentRow>
-            </ClayLayout.ContainerFluid>
+            </ClayLayout.Container>
 
             {/* Content */}
-            <ClayLayout.ContainerFluid className="align-item-center mt-10" size="lg">
+            <ClayLayout.Container className="align-item-center mt-10">
                 <ClayLayout.ContentRow className="justify-content-center">
                     <ClayLayout.ContentCol className="text-center">
                         <p className="text-11 text-black mb-3">RecipeHub</p>
@@ -51,7 +51,7 @@ export default function Home() {
                         <Search/>
                     </ClayLayout.ContentCol>
                 </ClayLayout.ContentRow>
-            </ClayLayout.ContainerFluid>
+            </ClayLayout.Container>
         </>
     );
 }
