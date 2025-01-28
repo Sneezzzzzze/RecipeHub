@@ -3,7 +3,7 @@ import "@clayui/css"
 import {ibmPlexSansThai} from "@/app/ui/fonts";
 import {Metadata} from "next";
 import { Analytics } from "@vercel/analytics/react"
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 export const metadata: Metadata = {
     title: {
         template: '%s | RecipeHub',
@@ -23,6 +23,7 @@ export default function RootLayout({
       <body className={`${ibmPlexSansThai.variable} font-regular`}>
         {children} {/* This renders your page content */}
         <Analytics />
+        <SpeedInsights/>
       </body>
       </html>
   );
