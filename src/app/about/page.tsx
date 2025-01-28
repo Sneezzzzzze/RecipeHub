@@ -1,15 +1,13 @@
-'use client';
-
-import { useEffect } from "react";
-
 import "@clayui/css/lib/css/atlas.css";
 import ClayLayout from "@clayui/layout";
 import ClayCol from "@clayui/layout/lib/Col";
+import {Metadata} from "next";
 
+export const metadata: Metadata = {
+    title: 'Create Invoices',
+};
 export default function About() {
-    useEffect(() => {
-        document.title = "Home Page";
-    }, []);
+
     return (
         <ClayLayout.Container>
             <ClayLayout.ContentRow className="align-items-center">
