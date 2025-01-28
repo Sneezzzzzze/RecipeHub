@@ -1,17 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
 import "@clayui/css/lib/css/atlas.css";
-import ClayForm, { ClayInput } from '@clayui/form';
+import React, {useState, useEffect} from 'react';
+import ClayForm, {ClayInput} from '@clayui/form';
 import ClayButton from '@clayui/button';
 import ClayIcon from "@clayui/icon";
-
-// Dynamically import ClayMultiSelect with no SSR
-const ClayMultiSelect = dynamic(
-    () => import('@clayui/multi-select'),
-    { ssr: false }
-);
+import ClayMultiSelect from '@clayui/multi-select';
 
 // Define types
 interface Item {
@@ -27,15 +21,15 @@ export default function Search() {
 
     // Source data
     const sourceItems: Item[] = [
-        { label: "one", value: "1" },
-        { label: "two", value: "2" },
-        { label: "three", value: "3" }
+        {label: "one", value: "1"},
+        {label: "two", value: "2"},
+        {label: "three", value: "3"}
     ];
 
     // Handle client-side mounting
     useEffect(() => {
         setMounted(true);
-        setItems([{ label: "one", value: "1" }]);
+        setItems([{label: "chicken", value: "chicken"}]);
     }, []);
 
     const handleItemsChange = (newItems: Item[]) => {
