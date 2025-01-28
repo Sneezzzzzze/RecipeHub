@@ -1,6 +1,6 @@
 import "@/app/ui/globals.css";
 import "@clayui/css"
-import {geistMono, geistSans, ibmPlexSansThai} from "@/app/ui/fonts";
+import {ibmPlexSansThai} from "@/app/ui/fonts";
 import {Metadata} from "next";
 import { Analytics } from "@vercel/analytics/react"
 
