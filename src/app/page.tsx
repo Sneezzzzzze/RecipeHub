@@ -1,48 +1,57 @@
 'use client';
 
-import { useEffect } from "react";
-
 import "@clayui/css/lib/css/atlas.css";
 import ClayLayout from "@clayui/layout";
-import ClayCol from "@clayui/layout/lib/Col";
-import ClayCard from "@clayui/card";
-import ClayButton from "@clayui/button";
-
+import ClayIcon from '@clayui/icon';
+import ClayButton from '@clayui/button';
+import Search from '../app/ui/search';
 export default function Home() {
-    useEffect(() => {
-        document.title = "Home Page";
-    }, []);
 
     return (
         <>
-            <ClayLayout.Container>
+            {/* Header */}
+            <ClayLayout.ContainerFluid className="mt-4">
                 <ClayLayout.ContentRow className="align-items-center">
-                    <ClayCol className="ml-10 my-3 mt-5">
-                        <h1>test 1</h1>
-                    </ClayCol>
-                    <ClayCol>
-                        <h1>test 2</h1>
-                    </ClayCol>
-                    <ClayCol>
-                        <h1>test 3</h1>
-                    </ClayCol>
+                    <ClayLayout.ContentCol>
+                        <p className="text-5 text-black mb-1 font-weight-semi-bold">RecipeHub</p>
+                    </ClayLayout.ContentCol>
+                    <ClayLayout.ContentCol className="ml-auto">
+                        <ClayLayout.ContentRow>
+                            <ClayLayout.ContentCol>
+                                <ClayButton.Group spaced>
+                                    <ClayButton borderless displayType="secondary" className="text-black">
+                                        Item 1
+                                    </ClayButton>
+                                    <ClayButton borderless displayType="secondary">
+                                        Item 2
+                                    </ClayButton>
+                                    <ClayButton borderless displayType="secondary">
+                                        Item 3
+                                    </ClayButton>
+                                    <ClayButton borderless displayType="secondary" aria-label="User">
+                                        <ClayIcon
+                                            symbol="user"
+                                            spritemap="/images/icons.svg"
+                                            style={{ fontSize: '24px', width: '24px', height: '24px' }}
+                                        />
+                                    </ClayButton>
+                                </ClayButton.Group>
+                            </ClayLayout.ContentCol>
+                        </ClayLayout.ContentRow>
+                    </ClayLayout.ContentCol>
                 </ClayLayout.ContentRow>
-                <ClayLayout.ContentRow className="align-items-center">
-                    <ClayCard className="align-items-center">
-                        <ClayCard.Body>
-                            <ClayCard.Description displayType="title">
-                                {"Card Title"}
-                            </ClayCard.Description>
-                            <ClayCard.Description truncate={false} displayType="text">
-                                {
-                                    "Some quick example text to build on the card title and make up the bulk of the card content."
-                                }
-                            </ClayCard.Description>
-                            <ClayButton>{"Go somewhere"}</ClayButton>
-                        </ClayCard.Body>
-                    </ClayCard>
+            </ClayLayout.ContainerFluid>
+
+            {/* Content */}
+            <ClayLayout.ContainerFluid className="align-item-center mt-10" size="lg">
+                <ClayLayout.ContentRow className="justify-content-center">
+                    <ClayLayout.ContentCol className="text-center">
+                        <p className="text-11 text-black mb-3">RecipeHub</p>
+                        <p className="text-black mb-4">Welcome to RecipeHub! Explore recipes, create your own, and share with the world.</p>
+                        <Search/>
+                    </ClayLayout.ContentCol>
                 </ClayLayout.ContentRow>
-            </ClayLayout.Container>
+            </ClayLayout.ContainerFluid>
         </>
     );
 }

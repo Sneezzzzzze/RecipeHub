@@ -1,6 +1,17 @@
-import "./ui/globals.css";
+import "@/app/ui/globals.css";
 import "@clayui/css"
-import {geistMono, geistSans} from "@/app/ui/fonts";
+import {geistMono, geistSans, ibmPlexSansThai} from "@/app/ui/fonts";
+import {Metadata} from "next";
+import { Analytics } from "@vercel/analytics/react"
+
+export const metadata: Metadata = {
+    title: {
+        template: '%s | RecipeHub',
+        default: 'RecipeHub',
+    },
+    description: 'The official Next.js Learn Dashboard built with App Router.',
+    metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
+}
 
 export default function RootLayout({
   children,
@@ -9,8 +20,9 @@ export default function RootLayout({
 }>) {
   return (
       <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>  {/* Apply font variables */}
-      {children} {/* This renders your page content */}
+      <body className={`${ibmPlexSansThai.variable} font-regular`}>
+        {children} {/* This renders your page content */}
+        <Analytics />
       </body>
       </html>
   );
