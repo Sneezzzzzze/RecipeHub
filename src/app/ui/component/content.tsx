@@ -12,8 +12,6 @@ export default function Content({ children }: ContentProps) {
                 <div className="mx-auto">
                     <ClayLayout.ContentRow className="justify-center">
                         <ClayLayout.ContentCol className="text-center ">
-                            <p className="text-3xl sm:text-4xl md:text-5xl text-black mb-3">RecipeHub</p>
-                            <p className="text-black sm:text-lg md:text-xl mb-4 p-1">Welcome to RecipeHub! Explore recipes, create your own, and share with the world.</p>
                             {children}
                         </ClayLayout.ContentCol>
                     </ClayLayout.ContentRow>

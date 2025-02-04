@@ -5,6 +5,7 @@ import ClayIcon from "@clayui/icon";
 import {supabase} from "@/utils/supabase/client";
 import {redirect} from "next/navigation";
 import "@clayui/css/lib/css/atlas.css";
+import Image from "next/image";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +38,7 @@ export default function Header() {
         fetchUser();
     }, []);
     const handleLogin = async () => {
-        redirect("/auth/login");
+        redirect("/auth/signin");
     }
     const handleLogout = async () => {
         await supabase.auth.signOut();
@@ -81,7 +82,9 @@ export default function Header() {
                                 {/* User Profile */}
                                 {user?.user_metadata?.avatar_url ? (
                                     <button onClick={() => setIsOpen(!isOpen)} className="">
-                                        <img
+                                        <Image
+                                            width={48}
+                                            height={48}
                                             src={user?.user_metadata.avatar_url}
                                             alt="Profile"
                                             className="w-12 h-12 rounded-full border-2 border-gray-300 hover:border-black"
