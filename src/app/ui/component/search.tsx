@@ -29,7 +29,7 @@ export default function Search() {
     // Handle client-side mounting
     useEffect(() => {
         setMounted(true);
-        setItems([{label: "chicken", value: "chicken"}]);
+        setItems([]);
     }, []);
 
     const handleItemsChange = (newItems: Item[]) => {
@@ -42,7 +42,7 @@ export default function Search() {
             <ClayForm.Group>
                 <ClayInput.Group>
                     <ClayInput.GroupItem>
-                        <div className="form-control">Loading...</div>
+                        <div className="form-control"></div>
                     </ClayInput.GroupItem>
                 </ClayInput.Group>
             </ClayForm.Group>
