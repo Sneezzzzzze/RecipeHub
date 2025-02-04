@@ -8,6 +8,7 @@ import "@clayui/css/lib/css/atlas.css";
 import Image from "next/image";
 
 export default function Header() {
+    
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState<any>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null); // Specify the type for dropdownRef

@@ -4,7 +4,6 @@ import {useEffect, useState} from "react";
 import {supabase} from "@/utils/supabase/client";
 import ClayButton from "@clayui/button";
 import ClayIcon from "@clayui/icon";
-import {useRouter} from "next/navigation";
 import "@clayui/css/lib/css/atlas.css";
 import {z} from "zod";
 
@@ -15,12 +14,11 @@ const loginSchema = z.object({
 });
 
 const LoginPage = () => {
-    const [user, setUser] = useState<any>(null);
+    const [, setUser] = useState<unknown>(null);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
     const [loading, setLoading] = useState(false);
-    const router = useRouter(); // Use router for navigation
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -126,7 +124,7 @@ const LoginPage = () => {
                 </ClayButton>
 
                 <p className="text-gray-600 text-sm mt-2">
-                    Don't have an account? <a href="/auth/signup" className="text-blue-500">Sign Up</a>
+                    Don&apos;t have an account? <a href="/auth/signup" className="text-blue-500">Sign Up</a>
                 </p>
             </div>
         </div>
