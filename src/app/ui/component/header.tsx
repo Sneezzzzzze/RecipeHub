@@ -6,11 +6,13 @@ import {supabase} from "@/utils/supabase/client";
 import {redirect} from "next/navigation";
 import "@clayui/css/lib/css/atlas.css";
 import Image from "next/image";
+import Loading from "./loading";
 
 export default function Header() {
     
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null); // Specify the type for dropdownRef
 
     // Close dropdown when clicking outside
@@ -30,18 +32,35 @@ export default function Header() {
 
     useEffect(() => {
         const fetchUser = async () => {
+            setLoading(true); // Start loading
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
                 setUser(session.user);
             }
+            setTimeout(() => {
+                setLoading(false); // Stop loading after 2 seconds
+            }, 4000);
         };
-
         fetchUser();
     }, []);
+
+
+    if (loading) {
+        return (
+            <div className="flex h-screen items-center justify-center bg-white">
+                <Loading/>
+            </div>
+        );
+    }
+
     const handleLogin = async () => {
         redirect("/auth/signin");
     }
     const handleLogout = async () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false); // Stop loading after 2 seconds
+        }, 4000);
         await supabase.auth.signOut();
         setIsOpen(false);
         setUser(null);
@@ -82,7 +101,8 @@ export default function Header() {
                             <>
                                 {/* User Profile */}
                                 {user?.user_metadata?.avatar_url ? (
-                                    <button onClick={() => setIsOpen(!isOpen)} className="">
+                                    <button onClick={
+                                        () => setIsOpen(!isOpen)}>
                                         <Image
                                             width={48}
                                             height={48}

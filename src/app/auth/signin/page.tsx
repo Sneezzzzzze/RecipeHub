@@ -1,11 +1,12 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {supabase} from "@/utils/supabase/client";
 import ClayButton from "@clayui/button";
 import ClayIcon from "@clayui/icon";
 import "@clayui/css/lib/css/atlas.css";
 import {z} from "zod";
+import Loading from "@/app/ui/component/loading";
 
 // Define validation schema
 const loginSchema = z.object({
@@ -19,6 +20,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
     const [loading, setLoading] = useState(false);
+    const [loadingTxt, setLoadingTxt] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -29,6 +31,14 @@ const LoginPage = () => {
         };
         fetchUser();
     }, []);
+
+    if (loading) {
+        return (
+            <div className="flex h-screen items-center justify-center bg-white">
+                <Loading/>
+            </div>
+        );
+    }
 
     // Email & Password Login
     const handleEmailLogin = async () => {
@@ -43,7 +53,7 @@ const LoginPage = () => {
             return;
         }
         setErrors({}); // Clear previous errors
-        setLoading(true);
+        setLoadingTxt(true);
 
         const {data, error} = await supabase.auth.signInWithPassword({email, password});
 
@@ -53,7 +63,7 @@ const LoginPage = () => {
         } else {
             setUser(data.user);
         }
-        setLoading(false);
+        setLoadingTxt(false);
     };
 
     // Google OAuth Login
@@ -70,7 +80,7 @@ const LoginPage = () => {
 
             {/* Login Form */}
             <div className="relative p-8 bg-white rounded-lg shadow-lg text-center  z-10 align-items-center">
-                <h2 className="text-xl font-bold text-black p-2">Sign in to RecipeHub</h2>
+                <h1 className="text-2xl font-bold text-black p-2">Sign in to RecipeHub</h1>
 
                 {/* Google OAuth Login */}
                 <ClayButton
@@ -118,9 +128,9 @@ const LoginPage = () => {
                     displayType="secondary"
                     className="w-full mt-4"
                     onClick={handleEmailLogin}
-                    disabled={loading}
+                    disabled={loadingTxt}
                 >
-                    {loading ? "Signing in..." : "Sign In"}
+                    {loadingTxt ? "Signing in..." : "Sign In"}
                 </ClayButton>
 
                 <p className="text-gray-600 text-sm mt-2">
