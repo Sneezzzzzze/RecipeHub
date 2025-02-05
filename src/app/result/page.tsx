@@ -31,7 +31,7 @@ export default function Result() {
                         <h1 className="text-center p-1 text-xl font-bold">Search Results</h1>
                         {data && data.length > 0 ? (
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-2 justify-items-center text-wrap">
-                                {data.map((item) => (
+                                {data.map((item:any) => (
                                     <div
                                         key={item.id}
                                         className="flex flex-col items-center bg-white border w-full p-4 rounded-xl shadow-md transition-transform hover:scale-105 cursor-pointer"

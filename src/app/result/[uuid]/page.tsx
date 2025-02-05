@@ -32,7 +32,7 @@ export default function ResultDetail() {
                             {ingredient && ingredient.length > 0 ? (
                                 <div className="">
                                     {ingredient.map(
-                                        (item) => (
+                                        (item:any) => (
                                             // Check if item id matches uuid
                                             item.id == uuid && (
                                                 <div key={item.id}
