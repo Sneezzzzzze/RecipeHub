@@ -5,6 +5,7 @@ export default function Footer() {
     return (
         <footer className="bg-gray-200 px-4 py-4 sm:px-5 sm:py-4 border-t text-wrap ">
             <div className="container mx-auto flex justify-between items-center">
+                <div className="text-xl sm:text-2xl font-semibold text-black ">RecipeHub</div>
                 <p className="mb-0 text-muted flex items-center">
                     © {new Date().getFullYear()} RecipeHub. All Rights Reserved.
                 </p>

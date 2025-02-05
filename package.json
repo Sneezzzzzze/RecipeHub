@@ -16,6 +16,7 @@
     "@clayui/form": "^3.125.0",
     "@clayui/icon": "^3.111.0",
     "@clayui/layout": "^3.111.0",
+    "@clayui/link": "^3.111.0",
     "@clayui/multi-select": "^3.127.0",
     "@clayui/nav": "^3.127.0",
     "@heroicons/react": "^2.2.0",

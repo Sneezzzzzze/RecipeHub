@@ -16,7 +16,7 @@ export default function Home() {
             <Header/>
             {/* Content */}
             <Content>
-                <p className="text-3xl sm:text-4xl md:text-5xl text-black mb-3">RecipeHub</p>
+                <p className="text-3xl sm:text-4xl md:text-5xl text-black mb-3 text-center">RecipeHub</p>
                 <p className="text-black sm:text-lg md:text-xl mb-4 p-1">Welcome to RecipeHub! Explore recipes, create your own, and share with the world.</p>
                 <Search/>
             </Content>
