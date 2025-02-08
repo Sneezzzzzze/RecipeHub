@@ -3,7 +3,7 @@
 import {useParams} from 'next/navigation';  // For getting dynamic params from the URL
 import {useEffect, useState} from 'react';
 import Image from "next/image";
-import Header from "@/app/ui/component/header";
+import Header from "@/app/ui/components/navbar";
 
 export default function ResultDetail() {
     const {uuid} = useParams();  // Get `uuid` from URL

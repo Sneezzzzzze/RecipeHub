@@ -6,7 +6,7 @@ import ClayButton from "@clayui/button";
 import ClayIcon from "@clayui/icon";
 import "@clayui/css/lib/css/atlas.css";
 import {z} from "zod";
-import Loading from "@/app/ui/component/loading";
+import Loading from "@/app/ui/components/loading";
 
 // Define validation schema
 const loginSchema = z.object({

@@ -73,11 +73,11 @@ export default function Header() {
         redirect("/");
     }
     return (
-        <header className="fixed top-0 left-0 right-0 shadow-md px-2 py-3 sm:px-5 sm:py-4 z-10 text-wrap
+        <header className="fixed top-0 left-0 right-0 px-2 py-3 sm:px-5 sm:py-4 z-10 text-wrap
             ">
             <div className="container mx-auto flex justify-between items-center">
                 {/* Logo */}
-                <div className="text-xl sm:text-2xl font-semibold text-black cursor-pointer"
+                <div className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointer"
                      onClick={handleHome}>
                     RecipeHub
                 </div>
@@ -89,10 +89,10 @@ export default function Header() {
                                 <ClayButton
                                     borderless
                                     displayType="secondary"
-                                    className="text-black h-[48px]"
+                                    className="text-white"
                                     onClick={handleLogin}
                                 >
-                                    Sign In / Sign Up
+                                    Sign In | Sign Up
                                 </ClayButton>
                             </>
                         ): (

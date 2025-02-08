@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';  // useRouter from App Router
-import Header from '@/app/ui/component/header';
-import Footer from "@/app/ui/component/footer";
+import Header from '@/app/ui/components/navbar';
+import Footer from "@/app/ui/components/footer";
 import Image from "next/image";
 
 export default function Result() {
