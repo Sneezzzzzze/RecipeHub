@@ -73,7 +73,7 @@ export default function Header() {
         redirect("/");
     }
     return (
-        <header className="fixed top-0 left-0 right-0 px-2 py-3 sm:px-5 sm:py-4 z-10 text-wrap
+        <header className="fixed top-0 left-0 right-0 px-2 py-3 sm:px-5 sm:py-4 z-100 text-wrap
             ">
             <div className="container mx-auto flex justify-between items-center">
                 {/* Logo */}

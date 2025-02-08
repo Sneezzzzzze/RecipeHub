@@ -23,7 +23,7 @@ export default function Home() {
                             autoStart: true,
                             loop: false,
                             deleteSpeed: 10000000,
-                            cursor: '|',
+                            cursor: '',
                         }}
                     />
                 </div>
