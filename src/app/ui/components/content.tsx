@@ -17,10 +17,10 @@ export default function Content({children}: ContentProps) {
         >
 
             {/* ฺ Black Overlay */}
-            <div className="absolute inset-0 bg-black opacity-50"></div>
+            <div className="absolute inset-0 bg-black opacity-65"></div>
             
-            <div className="flex-1 flex flex-col justify-center px-4 py-10 sm:px-6 md:px-8 lg:px-10 text-wrap">
-                <div className="mx-auto shadow-lg p-6 sm:p-8 md:p-10 lg:p-12 bg-white rounded-xl">
+            <div className="flex-1 flex flex-col justify-center px-4 py-10 sm:px-6 md:px-8 lg:px-10 text-wrap z-10">
+                <div className="mx-auto p-6 sm:p-8 md:p-10 lg:p-12 rounded-xl">
                     {children}
                 </div>
             </div>

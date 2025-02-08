@@ -160,10 +160,10 @@ export default function Header() {
                                 <ClayButton
                                     borderless
                                     displayType="secondary"
-                                    className="text-black h-[48px]"
+                                    className="text-white"
                                     onClick={handleLogin}
                                 >
-                                    Sign In / Sign Up
+                                    Sign In | Sign Up
                                 </ClayButton>
                             </>
                         ): (
