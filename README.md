@@ -3,11 +3,11 @@
 First, Install the dependencies:
 
 ```bash
-npm install --legacy-peer-deps
+npm install
 ```
 or
 ```bash
-pnpm install --legacy-peer-deps
+pnpm install
 ```
 Second, Run the development server:
 ```bash
@@ -19,17 +19,6 @@ pnpm dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## How to Install Clay Css Components
+## Reference
+Login-form: [Form by andrew-demchenk0andrew-demchenk0](https://uiverse.io/andrew-demchenk0/little-treefrog-9])
 
-```bash
-npm install @clayui/{component-name} --legacy-peer-deps
-example:
-npm install @clayui/alert
-```
-or
-```bash
-pnpm add @clayui/{component-name}
-example:
-pnpm add @clayui/alert
-```
-You Can see the list of components in the [Clay Css Components](https://clayui.com/docs/components/index.html) documentation.
