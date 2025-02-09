@@ -1,10 +1,10 @@
 'use client';
 import React, { useState, useEffect, useRef } from "react";
 import ClayButton from "@clayui/button";
-import ClayIcon from "@clayui/icon";
+import { FaRegUserCircle } from "react-icons/fa";
+import { GoSignOut } from "react-icons/go";
 import {supabase} from "@/utils/supabase/client";
 import {redirect} from "next/navigation";
-import "@clayui/css/lib/css/atlas.css";
 import Image from "next/image";
 import Loading from "./loading";
 
@@ -86,14 +86,12 @@ export default function Header() {
                     <ClayButton.Group spaced>
                         {!user ? (
                             <>
-                                <ClayButton
-                                    borderless
-                                    displayType="secondary"
-                                    className="text-white"
+                                <button
+                                    className="text-white mb-0"
                                     onClick={handleLogin}
                                 >
                                     Sign In | Sign Up
-                                </ClayButton>
+                                </button>
                             </>
                         ): (
                             <>
@@ -106,46 +104,44 @@ export default function Header() {
                                             height={48}
                                             src={user?.user_metadata.avatar_url}
                                             alt="Profile"
-                                            className="w-12 h-12 rounded-full border-2 border-gray-300 hover:border-black"
+                                            className="w-12 h-12 rounded-full border-2 border-black hover:border-gray-300"
                                         />
                                     </button>
                                 ) : (
                                     <button onClick={() => setIsOpen(!isOpen)} className="">
-                                    <ClayIcon
-                                        symbol="user"
-                                        spritemap="/images/icons.svg"
-                                        style={{ fontSize: '48px', width: '36px', height: '36px' }}
-                                        className="w-12 h-12 rounded-full hover:border-2 border-gray-300"
-                                    />
+                                        <FaRegUserCircle/>
                                     </button>
                                 )}
-
-                                <div
-                                    className={`absolute right-0 top-12 bg-white shadow-lg rounded-lg p-3 space-y-2 w-40 transition-all duration-300 ${
-                                        isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
-                                    }`}
-                                >
-                                    <ClayButton.Group spaced>
-                                        <ClayButton borderless displayType="secondary">
-                                            Profile
-                                        </ClayButton>
-                                        <ClayButton borderless displayType="secondary">
-                                            Settings
-                                        </ClayButton>
-                                        <ClayButton
-                                            borderless
-                                            displayType="secondary"
-                                            onClick={handleLogout}
-                                        >
-                                            Sign Out
-                                            <ClayIcon
-                                                symbol="sign-in"
-                                                spritemap="/images/icons.svg"
-                                                className="ml-2"
-                                            />
-                                        </ClayButton>
-                                    </ClayButton.Group>
-                                </div>
+                                    <div className={
+                                        `origin-top-right absolute top-12 right-0 mt-2 w-44 rounded-lg shadow-xl bg-white
+                                         ${
+                                             isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+                                         }`}>
+                                        <ul role="menu" aria-orientation="vertical" aria-labelledby="options-menu" className="pt-3">
+                                            <li>
+                                                <button
+                                                    className="block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-gray-200 w-full"
+                                                >
+                                                    Option 1
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button
+                                                    className="block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-gray-200 w-full"
+                                                >
+                                                    Option 2
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button
+                                                    className="block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-gray-200 w-full"
+                                                    onClick={handleLogout}
+                                                >
+                                                    Option 3
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
                             </>
                         )}
 
@@ -182,54 +178,42 @@ export default function Header() {
                                     </button>
                                 ) : (
                                     <button onClick={() => setIsOpen(!isOpen)} className="">
-                                        <ClayIcon
-                                            symbol="user"
-                                            spritemap="/images/icons.svg"
-                                            style={{ fontSize: '48px', width: '36px', height: '36px' }}
-                                            className="w-12 h-12 rounded-full hover:border-2 border-gray-300"
-                                        />
+                                        <FaRegUserCircle/>
                                     </button>
                                 )}
 
-                                <div
-                                    className={`absolute right-0 top-12 bg-white shadow-lg rounded-lg p-3 space-y-2 w-40 transition-all duration-300 ${
+                                <div className={
+                                    `origin-top-right absolute top-12 right-0 mt-2 w-44 rounded-lg shadow-xl bg-white
+                                         ${
                                         isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
-                                    }`}
-                                >
-                                    <ClayButton.Group spaced>
-                                        <ClayButton borderless displayType="secondary">
-                                            Profile
-                                        </ClayButton>
-                                        <ClayButton borderless displayType="secondary">
-                                            Settings
-                                        </ClayButton>
-                                        <ClayButton
-                                            borderless
-                                            displayType="secondary"
-                                            onClick={handleLogout}
-                                        >
-                                            Sign Out
-                                            <ClayIcon
-                                                symbol="sign-in"
-                                                spritemap="/images/icons.svg"
-                                                className="ml-2"
-                                            />
-                                        </ClayButton>
-                                    </ClayButton.Group>
+                                    }`}>
+                                    <ul role="menu" aria-orientation="vertical" aria-labelledby="options-menu" className="pt-3">
+                                        <li>
+                                            <button
+                                                className="block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-gray-200 w-full"
+                                            >
+                                                Option 1
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                className="block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-gray-200 w-full"
+                                            >
+                                                Option 2
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                className="block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-gray-200 w-full"
+                                            >
+                                                Option 3
+                                            </button>
+                                        </li>
+                                    </ul>
                                 </div>
                             </>
                         )}
-
                     </ClayButton.Group>
-
-                    {/* Mobile Dropdown */}
-                    <div
-                        className={`absolute right-0 top-12 bg-white shadow-lg rounded-lg p-3 space-y-2 w-40 transition-all duration-300 ${
-                            isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
-                        }`}
-                    >
-
-                    </div>
                 </div>
             </div>
         </header>

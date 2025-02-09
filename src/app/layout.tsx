@@ -1,5 +1,4 @@
 import "@/app/ui/globals.css";
-import "@clayui/css"
 import {ibmPlexSansThai} from "@/app/ui/fonts";
 import {Metadata} from "next";
 import { Analytics } from "@vercel/analytics/react"

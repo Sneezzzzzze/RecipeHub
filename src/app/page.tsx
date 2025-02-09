@@ -1,11 +1,10 @@
 'use client';
 
-import "@clayui/css/lib/css/atlas.css";
 import Typewriter from 'typewriter-effect';
-import Search from './ui/components/search';
-import NavBar from './ui/components/navbar';
-import Content from './ui/components/content';
-import Footer from "./ui/components/footer";
+import Search from '@/app/ui/components/search';
+import NavBar from '@/app/ui/components/navbar';
+import Content from '@/app/ui/components/content';
+import Footer from "@/app/ui/components/footer";
 import React from "react";
 
 export default function Home() {

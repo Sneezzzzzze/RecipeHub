@@ -1,6 +1,4 @@
 import React from "react";
-import "@clayui/css/lib/css/atlas.css";
-
 type ContentProps = React.PropsWithChildren<{
     customProp?: string;
 }>;
