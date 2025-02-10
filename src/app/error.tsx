@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import "@clayui/css/lib/css/atlas.css";
 import ClayEmptyState from "@clayui/empty-state";
 import ClayLayout from "@clayui/layout";
+import Image from "next/image";
 
 export default function SomethingWentWrong() {
     const [isClient, setIsClient] = useState(false);
@@ -16,16 +17,19 @@ export default function SomethingWentWrong() {
 
     return (
         <>
-            <ClayLayout.ContentRow>
-                <ClayEmptyState
-                    description="Something went wrong. Please try again later."
-                    imgProps={{ alt: "Illustration of success", title: "Success Illustration" }}
-                    imgSrc="/images/success_state.svg"
-                    title="Something Went Wrong"
-                    small={false}
-                    className={"mt-10"}
-                />
-            </ClayLayout.ContentRow>
+            <div className="bg-white flex flex-col min-h-screen items-center justify-center sm:py-12 md:py-16 lg:py-20 text-wrap shadow-lg relative">
+                <div className="w-full max-w-md flex flex-col items-center gap-6">
+                    <Image
+                        src="/images/success_state.svg"
+                        alt="Success State"
+                        width={350}
+                        height={350}
+                    />
+                    <p className="text-black text-2xl text-center">
+                        Something went wrong. Please try again later.
+                    </p>
+                </div>
+            </div>
         </>
     );
 }
