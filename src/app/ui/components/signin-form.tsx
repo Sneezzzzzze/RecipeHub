@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import { FcGoogle } from "react-icons/fc";
+import {FaEye, FaEyeSlash} from "react-icons/fa";
 
 interface LoginFormProps {
     email: string;
@@ -11,12 +12,14 @@ interface LoginFormProps {
     handleEmailLogin: () => void;
     handleGoogleLogin: () => void;
     loadingTxt: boolean;
+    handleKeyPress: (event: React.KeyboardEvent) => void;
 }
 
-const Login_Form: React.FC<LoginFormProps> = ({
+const SignIn_Form: React.FC<LoginFormProps> = ({
         email, setEmail, password, setPassword, errors,
-        handleEmailLogin, handleGoogleLogin, loadingTxt
+        handleEmailLogin, handleGoogleLogin, loadingTxt, handleKeyPress
     }) => {
+    const [showPassword, setShowPassword] = useState(false);
     return (
         <StyledWrapper>
             <form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -28,29 +31,38 @@ const Login_Form: React.FC<LoginFormProps> = ({
                     placeholder="Email"
                     className={`input ${errors.email ? "error" : ""}`}
                     value={email}
+                    onKeyDown={handleKeyPress}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 {errors.email && <p className="error-text">{errors.email}</p>}
 
                 {/* Password Input */}
-                <input
-                    type="password"
-                    placeholder="Password"
-                    className={`input ${errors.password ? "error" : ""}`}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className="password-wrapper">
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        className={`input ${errors.password ? "error" : ""}`}
+                        value={password}
+                        onKeyDown={handleKeyPress}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? <FaEyeSlash/> : <FaEye/>}
+                    </span>
+                </div>
+
                 {errors.password && <p className="error-text">{errors.password}</p>}
 
                 {/* Google Login */}
                 <div className="login-with">
                     <button className="button-log" onClick={handleGoogleLogin}>
-                        <FcGoogle className="icon" />
+                        <FcGoogle className="icon"/>
                     </button>
                 </div>
 
-                <div>
-
+                <div className="link-to-signup">
+                    <p className="p-confirm">
+                        Don&apos;t have Account? <a className="a-confirm" href="/auth/signup">SignUp </a>here</p>
                 </div>
 
                 {/* Login Button */}
@@ -71,7 +83,7 @@ const StyledWrapper = styled.div`
         --font-color-sub: #666;
         --bg-color: #fff;
         --main-color: #323232;
-        padding: 20px;
+        padding: 80px;
         background: lightgrey;
         display: flex;
         flex-direction: column;
@@ -79,24 +91,23 @@ const StyledWrapper = styled.div`
         justify-content: center;
         gap: 20px;
         border-radius: 5px;
-        border: 2px solid var(--main-color);
-        box-shadow: 4px 4px var(--main-color);
+        border: 2px solid #FDE047;
+        box-shadow: 4px 4px #F59E0B;
     }
-
     .title {
         color: var(--font-color);
         font-weight: 900;
-        font-size: 40px;
+        font-size: 50px;
         margin-bottom: 25px;
     }
     
     .input {
-        width: 250px;
-        height: 40px;
+        width: 300px;
+        height: 45px;
         border-radius: 5px;
-        border: 2px solid var(--main-color);
+        border: 2px solid #FDE047;
         background-color: var(--bg-color);
-        box-shadow: 4px 4px var(--main-color);
+        box-shadow: 4px 4px #F59E0B;
         font-size: 15px;
         font-weight: 600;
         color: var(--font-color);
@@ -110,22 +121,35 @@ const StyledWrapper = styled.div`
     }
 
     .input:focus {
-        border: 2px solid var(--input-focus);
+        border: 2px solid var(--main-color);
     }
-
+    
     .login-with {
         display: flex;
         gap: 20px;
     }
-
+    
+    .password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .eye-icon {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+        font-size: 18px;
+        color: var(--font-color);
+    }
+    
     .button-log {
         cursor: pointer;
-        width: 40px;
-        height: 40px;
+        width: 55px;
+        height: 55px;
         border-radius: 100%;
-        border: 2px solid var(--main-color);
+        border: 2px solid #FDE047;
         background-color: var(--bg-color);
-        box-shadow: 4px 4px var(--main-color);
+        box-shadow: 4px 4px #F59E0B;
         color: var(--font-color);
         font-size: 25px;
         display: flex;
@@ -134,8 +158,8 @@ const StyledWrapper = styled.div`
     }
 
     .icon {
-        width: 24px;
-        height: 24px;
+        width: 35px;
+        height: 35px;
         fill: var(--main-color);
     }
 
@@ -145,16 +169,33 @@ const StyledWrapper = styled.div`
     }
 
     .button-confirm {
-        margin: 30px auto 0 auto;
-        width: 120px;
-        height: 40px;
+        margin: 10px auto 0 auto;
+        width: 150px;
+        height: 55px;
         border-radius: 5px;
-        border: 2px solid var(--main-color);
+        border: 2px solid #FDE047;
         background-color: var(--bg-color);
-        box-shadow: 4px 4px var(--main-color);
-        font-size: 17px;
-        font-weight: 600;
+        box-shadow: 4px 4px #F59E0B;
+        font-size: 20px;
+        font-weight: 700;
         color: var(--font-color);
         cursor: pointer;
-    }`;
-export default Login_Form;
+    }
+    .link-to-signup {
+        justify-content: center;
+        align-items: center;
+        margin: 2px auto 0 auto;
+    }
+    .p-confirm {
+        color: var(--font-color)
+    }
+    .a-confirm {
+        color: #F59E0B;
+        text-decoration: underline;
+
+        &:hover {
+            color: #FDE047;
+        }
+    }
+`;
+export default SignIn_Form;

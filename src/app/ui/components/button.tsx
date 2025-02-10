@@ -1,12 +1,15 @@
 import React from "react";
 type ContentProps = React.PropsWithChildren<{
     customProp?: string;
+    onClick?: () => void;
 }>;
 
 
-export default function ButtonTW({ children }: ContentProps) {
+export default function ButtonTW({ children, onClick }: ContentProps) {
     return (
-            <button className="mx-auto mt-8 w-30 h-10 rounded-md border-2 border-main-color bg-bg-color shadow-[4px_4px_black] text-sm font-semibold text-black cursor-pointer">
+            <button
+                onClick={onClick}
+                className="bg-white mx-auto mt-10 w-30 h-10 rounded-md border-2 border-[#FDE047] shadow-[4px_4px_#F59E0B] text-sm font-semibold text-black cursor-pointer">
                 {children}
             </button>
     );
