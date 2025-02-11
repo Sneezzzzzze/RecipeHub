@@ -3,15 +3,15 @@
 import {useParams} from 'next/navigation';  // For getting dynamic params from the URL
 import {useEffect, useState} from 'react';
 import Image from "next/image";
-import Header from "@/app/ui/components/navbar";
+import Navbar from "@/app/ui/components/navbar";
 
 export default function ResultDetail() {
-    const {uuid} = useParams();  // Get `uuid` from URL
+    const {id} = useParams();  // Get `uuid` from URL
     const [ingredient, setIngredient] = useState<any>(null);
 
     useEffect(() => {
-        // Check if `uuid` is available
-        if (!uuid) return;
+        // Check if `id` is available
+        if (!id) return;
 
         // Retrieve the stored data from sessionStorage
         const storedData = sessionStorage.getItem('searchData');
@@ -19,11 +19,11 @@ export default function ResultDetail() {
             setIngredient(JSON.parse(storedData));
         }
         console.log("Ingredient Data:", storedData); // Debugging
-    }, [uuid]);
+    }, [id]);
 
     return (
         <>
-            <Header/>
+            <Navbar/>
             {ingredient ? (
                 <div className="flex flex-col items-center justify-center bg-white py-8">
                     <div className="shadow-lg p-6 sm:p-8 md:p-10 lg:p-12 bg-white rounded-xl w-full max-w-screen-xl">
@@ -34,7 +34,7 @@ export default function ResultDetail() {
                                     {ingredient.map(
                                         (item:any) => (
                                             // Check if item id matches uuid
-                                            item.id == uuid && (
+                                            item.id == id && (
                                                 <div key={item.id}
                                                      className="">
                                                     {/* Combined Missed & Used Ingredients Grid */}

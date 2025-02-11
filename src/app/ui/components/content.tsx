@@ -22,12 +22,6 @@ export default function Content({children}: ContentProps) {
                     {children}
                 </div>
             </div>
-            {/*<div className="bg-white rounded-2xl shadow-md overflow-hidden w-80 mx-auto shadow-lg">*/}
-            {/*    <div className="p-4">*/}
-            {/*        <h2 className="text-xl font-bold text-gray-800">test</h2>*/}
-            {/*        <p className="text-gray-600 mt-2">test</p>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
         </div>
     );
 }

@@ -61,8 +61,7 @@ const SignIn_Form: React.FC<LoginFormProps> = ({
                 </div>
 
                 <div className="link-to-signup">
-                    <p className="p-confirm">
-                        Don&apos;t have Account? <a className="a-confirm" href="/auth/signup">SignUp </a>here</p>
+                    <p className="p-confirm">Don&apos;t have Account? <a className="a-confirm" href="/auth/signup">SignUp</a> here</p>
                 </div>
 
                 {/* Login Button */}
