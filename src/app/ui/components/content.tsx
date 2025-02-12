@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "@/app/ui/components/navbar"
 type ContentProps = React.PropsWithChildren<{
     customProp?: string;
 }>;
@@ -13,6 +14,8 @@ export default function Content({children}: ContentProps) {
                 backgroundPosition: 'center',
             }}
         >
+            {/* NavBar */}
+            <Navbar/>
 
             {/* ฺ Black Overlay */}
             <div className="absolute inset-0 bg-black opacity-65"></div>

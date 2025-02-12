@@ -21,8 +21,10 @@ const signUpSchema = z.object({
 const SignUpPage = () => {
     const [background, setBackground] = useState("");
     const [signUpSuccess, setSignUpSuccess] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         setBackground("url('https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?cs=srgb&dl=pexels-chanwalrus-958545.jpg&fm=jpg')");
     }, []);
     const [name, setName] = useState("");
@@ -39,6 +41,11 @@ const SignUpPage = () => {
                 <Loading />
             </div>
         );
+    }
+
+    if (!mounted) {
+        // Avoid rendering the component before it's mounted to prevent hydration error
+        return null;
     }
 
     // Email & Password Sign Up

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { GoSignOut } from "react-icons/go";
 import { supabase } from "@/utils/supabase/client";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import Image from "next/image";
 
 export default function Header() {
@@ -11,7 +11,6 @@ export default function Header() {
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
-    const router = useRouter();
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -52,7 +51,7 @@ export default function Header() {
     };
 
     return (
-        <header className="fixed top-5 left-0 right-0 px-4 py-3 z-50 flex-grow flex justify-center">
+        <header className="top-5 left-0 right-0 px-4 py-3 z-50 flex-grow flex justify-center">
             <div className="container mx-auto flex items-center justify-between">
                 <div className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointer" onClick={handleHome}>
                     RecipeHub
@@ -66,13 +65,13 @@ export default function Header() {
                         <>
                             <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none cursor-pointer">
                                 {user?.user_metadata?.avatar_url ? (
-                                    <Image width={40} height={40} src={user.user_metadata.avatar_url} alt="Profile" className="w-10 h-10 rounded-full border border-gray-300" />
+                                    <Image width={35} height={35} src={user.user_metadata.avatar_url} alt="Profile" className="rounded-full border border-gray-300 mb-0" />
                                 ) : (
                                     <FaUserCircle className="text-white w-10 h-10" />
                                 )}
                             </button>
                             {isOpen && (
-                                <div className="absolute right-0 mt-2 w-50 h-auto bg-white rounded-md shadow-lg overflow-hidden z-50 ">
+                                <div className="absolute right-0 mt-2  h-auto bg-white rounded-md shadow-lg overflow-hidden z-50 w-[200px]">
                                     <ul className="py-2 text-gray-700 text-center">
                                         <li>
                                             <button className="p-2 w-full text-left px-4 py-2 hover:bg-gray-100" onClick={() => redirect("/settings")}>Settings</button>

@@ -1,13 +1,13 @@
 'use client';
 
-// import "@clayui/css/lib/css/atlas.css";
 import React, { useEffect, useState } from 'react';
 import ClayForm, { ClayInput } from '@clayui/form';
 import ClayButton from '@clayui/button';
 import ClayIcon from "@clayui/icon";
 import ClayMultiSelect from '@clayui/multi-select';
-import { redirect } from "next/navigation";
 import SearchLoader from "@/app/ui/components/searching";
+import { useRouter } from 'next/navigation';
+import "@clayui/css/lib/css/atlas.css"
 
 // Define types
 interface Item {
@@ -21,6 +21,7 @@ export default function Search() {
     const [query, setQuery] = useState<string>("");
     const [items, setItems] = useState<Item[]>([]);
     const [searching, setSearching] = useState(false);
+    const router = useRouter();
 
     // Source data
     const sourceItems: Item[] = [
@@ -31,6 +32,7 @@ export default function Search() {
 
     useEffect(() => {
         setMounted(true);
+        import("@clayui/css/lib/css/atlas.css");
     }, []);
 
     const handleSearch = async () => {
@@ -50,7 +52,7 @@ export default function Search() {
         } finally {
             setTimeout(() => {
                 setSearching(false); // Hide loader after 3 seconds
-                redirect('/result');
+                router.push("/result")
             }, 3000);
         }
     };
@@ -58,6 +60,11 @@ export default function Search() {
     const handleItemsChange = (newItems: Item[]) => {
         setItems(newItems);
     };
+
+    if (!mounted) {
+        // Avoid rendering the component before it's mounted to prevent hydration error
+        return null;
+    }
 
     return (
         <>

@@ -1,8 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import "@clayui/css/lib/css/atlas.css";
-import ClayEmptyState from "@clayui/empty-state";
-import ClayLayout from "@clayui/layout";
 import Image from "next/image";
 
 export default function SomethingWentWrong() {
@@ -25,7 +23,10 @@ export default function SomethingWentWrong() {
                         width={350}
                         height={350}
                     />
-                    <p className="text-black text-2xl text-center">
+                    <p className="text-black text-2xl font-semibold text-center">
+                        Something Went Wrong
+                    </p>
+                    <p className="text-gray-400 text-lg text-center">
                         Something went wrong. Please try again later.
                     </p>
                 </div>
