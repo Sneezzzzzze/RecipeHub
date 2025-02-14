@@ -30,8 +30,8 @@ export default function Home() {
                 </div>
                 <Search/>
             </Content>
-            <Footer/>
             {/* Footer */}
+            <Footer/>
         </>
     );
 }

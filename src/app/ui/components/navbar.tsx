@@ -37,7 +37,7 @@ export default function Header() {
         };
         fetchUser();
     }, []);
-
+    const handleSignUp = async () => redirect("/auth/signup")
     const handleLogin = async () => redirect("/auth/signin");
     const handleLogout = async () => {
         setIsOpen(false);
@@ -58,9 +58,18 @@ export default function Header() {
                 </div>
                 <div className="relative" ref={dropdownRef}>
                     {!user ? (
-                        <button className="text-white font-medium cursor-pointer" onClick={handleLogin}>
-                            Sign In | Sign Up
-                        </button>
+                        <>
+                            <div className="flex ">
+                                <button className="text-white font-medium cursor-pointer" onClick={handleLogin}>
+                                    Sign In
+                                </button>
+                                <p className="text-white font-medium mb-0 mx-2"> | </p>
+                                <button className="text-white font-medium cursor-pointer" onClick={handleSignUp}>
+                                    Sign Up
+                                </button>
+                            </div>
+                        </>
+
                     ) : (
                         <>
                             <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none cursor-pointer">

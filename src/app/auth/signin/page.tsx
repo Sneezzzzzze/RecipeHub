@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase/client";
 import SignIn_Form from "@/app/ui/components/signin-form";
 import { z } from "zod";
-import {redirect} from "next/navigation";
+import {useRouter} from "next/navigation";
 
 // Define validation schema
 const loginSchema = z.object({
@@ -19,6 +19,7 @@ const SignInPage = () => {
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
     const [loadingTxt, setLoadingTxt] = useState(false);
     const [background, setBackground] = useState("");
+    const router = useRouter()
     useEffect(() => {
         const fetchUser = async () => {
             const { data: { session } } = await supabase.auth.getSession();
@@ -52,7 +53,7 @@ const SignInPage = () => {
             setUser(data.user);
         }
         setLoadingTxt(false);
-        redirect('/auth/callback')
+        router.push("/auth/signin");
     };
 
     // Google OAuth Login

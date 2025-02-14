@@ -73,19 +73,19 @@ const SignUpPage = () => {
                 email,
                 password,
                 options: {
-                    data: { name },
-                },
+                    data: {
+                        username: name,
+                    },
+                }
             });
 
             if (error) {
                 // Handle error from Supabase
                 console.error("Sign-up failed:", error.message);
-                setErrors({ email: error.message });  // Display the error message
+                console.log("gay")
             } else {
-                // Set success state or redirect to the next page
                 setSignUpSuccess(true);
-                // Optionally, redirect to the login page or display a success message
-                // redirect("/auth/login");
+                console.log("Sign-up successful, user data:", data);
             }
         } catch (error) {
             console.error("Unexpected error:", error);
@@ -105,6 +105,13 @@ const SignUpPage = () => {
         });
 
         if (error) console.error("Google sign-up failed:", error.message);
+    };
+
+    const handleKeyPress = async (event: React.KeyboardEvent) => {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent Enter from triggering Google login
+            await handleSignUp(); // Await the Promise from handleEmailLogin
+        }
     };
 
     return (
@@ -129,9 +136,10 @@ const SignUpPage = () => {
                         handleSignUp={handleSignUp}
                         handleGoogleSignUp={handleGoogleSignUp}
                         loadingTxt={loadingTxt}
+                        handleKeyPress={handleKeyPress}
                     />
                     ) : (
-                        <ConfirmSignUp/>
+                        <ConfirmSignUp email={email}/>
                 )}
             </div>
         </>
