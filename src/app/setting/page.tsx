@@ -141,9 +141,8 @@ export default function Setting() {
                             <div className="flex-1 h-full">
                                 <h2 className="text-2xl font-semibold text-gray-800 mb-4">Change Password</h2>
                                 <p className="text-gray-500 mb-4">Update your password for better security.</p>
-                                {/*{error && <p className="text-red-500 mb-2">{error}</p>}*/}
 
-                                {alertMessage && <Alert displayType={alertDisplayType || ""} title={alertType || ""}>{alertMessage}</Alert>}
+                                {alertMessage && <Alert displayType={alertDisplayType || undefined} title={alertType || ""}>{alertMessage}</Alert>}
 
                                 <form onSubmit={handleUpdatePassword} className="space-y-4">
                                     <div className="relative">
@@ -216,9 +215,7 @@ export default function Setting() {
                                         onChange={(e) => setUser({ ...user, user_metadata: { ...user.user_metadata, email: e.target.value } })}
                                         className="w-full p-3 border mt-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                                     />
-                                    <button className="bg-white mx-auto mt-2 w-35 h-10 rounded-md border-2 border-[#FDE047] shadow-[4px_4px_#F59E0B] text-sm font-semibold text-black cursor-pointer">
-                                        Update Account Info
-                                    </button>
+
                                 </form>
                             </div>
                         )}
