@@ -15,7 +15,9 @@ export default function Setting() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
-    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [alertType, setAlertType] = useState<"Success" | "Danger" | "Warning" | null>(null);
+    const [alertDisplayType, setalertDisplayType] = useState<"success" | "danger" | "warning" | null>(null);
     const router = useRouter()
     useEffect(() => {
         setBackground("url('https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?cs=srgb&dl=pexels-chanwalrus-958545.jpg&fm=jpg')");
@@ -44,24 +46,31 @@ export default function Setting() {
             });
 
             if (authError) {
-                setError("Current password is incorrect");
+                setAlertMessage("Current password is incorrect");
+                setAlertType("Warning");
+                setalertDisplayType("warning");
                 return;
             }
 
-            // Step 2: Update the password if authentication is successful
             const { error } = await supabase.auth.updateUser({
-                password: newPassword, // Update the password
+                password: newPassword,
             });
 
             if (error) {
-                setError(error.message);
+                setAlertMessage(error.message);
+                setAlertType("Danger");
+                setalertDisplayType("danger");
             } else {
-                setAlert(true);
+                setAlertMessage("Password updated successfully!");
+                setAlertType("Success");
+                setalertDisplayType("success");
+                router.push("/auth/callback2signin")
                 await supabase.auth.signOut();
-                router.push("/auth/signin");
             }
         } catch (err) {
-            setError("Failed to update password.");
+            setAlertMessage("Failed to update password.");
+            setAlertType("Danger");
+            setalertDisplayType('danger');
         }
     };
 
@@ -132,10 +141,10 @@ export default function Setting() {
                             <div className="flex-1 h-full">
                                 <h2 className="text-2xl font-semibold text-gray-800 mb-4">Change Password</h2>
                                 <p className="text-gray-500 mb-4">Update your password for better security.</p>
-                                {error && <p className="text-red-500 mb-2">{error}</p>}
-                                {alert && <Alert displayType="success" title="Success" role={null}>
-                                    Change Password Successful
-                                </Alert>}
+                                {/*{error && <p className="text-red-500 mb-2">{error}</p>}*/}
+
+                                {alertMessage && <Alert displayType={alertDisplayType || ""} title={alertType || ""}>{alertMessage}</Alert>}
+
                                 <form onSubmit={handleUpdatePassword} className="space-y-4">
                                     <div className="relative">
                                         <input

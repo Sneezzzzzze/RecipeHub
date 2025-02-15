@@ -4,13 +4,13 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Loader from "@/app/ui/components/loading";
 
-const CallbackV2 = () => {
+const Callback2SignUp = () => {
     const router = useRouter();
 
     useEffect(() => {
         const handleSession = async () => {
             setTimeout(() => {
-                router.push("/");
+                router.push("/auth/signup");
             }, 3000);
         };
         handleSession();
@@ -19,5 +19,5 @@ const CallbackV2 = () => {
     return <Loader />;
 };
 
-export default CallbackV2;
+export default Callback2SignUp;
 
