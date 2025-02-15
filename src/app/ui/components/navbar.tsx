@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { GoSignOut } from "react-icons/go";
 import { supabase } from "@/utils/supabase/client";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function Header() {
@@ -11,6 +11,7 @@ export default function Header() {
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -28,27 +29,26 @@ export default function Header() {
 
     useEffect(() => {
         const fetchUser = async () => {
-            setLoading(true);
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
                 setUser(session.user);
             }
-            setLoading(false);
         };
         fetchUser();
     }, []);
-    const handleSignUp = async () => redirect("/auth/signup")
-    const handleLogin = async () => redirect("/auth/signin");
+    const handleSignUp = async () => router.push("/auth/signup")
+    const handleLogin = async () => router.push("/auth/signin");
     const handleLogout = async () => {
-        setIsOpen(false);
-        setLoading(true);
+        router.push("/auth/callbackV2")
         await supabase.auth.signOut();
+        setIsOpen(false);
         setUser(null);
-        setLoading(false);
     };
     const handleHome = () => {
         window.location.href = "/";
     };
+    const handleSetting = async () => router.push("/setting")
+    const handleProfile = async () => router.push("/profile")
 
     return (
         <header className="top-5 left-0 right-0 px-4 py-3 z-50 flex-grow flex justify-center">
@@ -59,7 +59,10 @@ export default function Header() {
                 <div className="relative" ref={dropdownRef}>
                     {!user ? (
                         <>
-                            <div className="flex ">
+                            <div className="flex">
+                                <button className="text-white font-medium cursor-pointer mx-4">
+                                    Result
+                                </button>
                                 <button className="text-white font-medium cursor-pointer" onClick={handleLogin}>
                                     Sign In
                                 </button>
@@ -72,21 +75,26 @@ export default function Header() {
 
                     ) : (
                         <>
-                            <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none cursor-pointer">
-                                {user?.user_metadata?.avatar_url ? (
-                                    <Image width={35} height={35} src={user.user_metadata.avatar_url} alt="Profile" className="rounded-full border border-gray-300 mb-0" />
-                                ) : (
-                                    <FaUserCircle className="text-white w-10 h-10" />
-                                )}
-                            </button>
+                            <div className="flex">
+                                <button className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointe mx-4">
+                                    Result
+                                </button>
+                                <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none cursor-pointer">
+                                    {user?.user_metadata?.avatar_url ? (
+                                        <Image width={35} height={35} src={user.user_metadata.avatar_url} alt="Profile" className="rounded-full border border-gray-300 mb-0" />
+                                    ) : (
+                                        <FaUserCircle className="text-white w-10 h-10" />
+                                    )}
+                                </button>
+                            </div>
                             {isOpen && (
                                 <div className="absolute right-0 mt-2  h-auto bg-white rounded-md shadow-lg overflow-hidden z-50 w-[200px]">
                                     <ul className="py-2 text-gray-700 text-center">
                                         <li>
-                                            <button className="p-2 w-full text-left px-4 py-2 hover:bg-gray-100" onClick={() => redirect("/settings")}>Settings</button>
+                                            <button className="p-2 w-full text-left px-4 py-2 hover:bg-gray-100" onClick={handleSetting}>Settings</button>
                                         </li>
                                         <li>
-                                            <button className="p-2 w-full text-left px-4 py-2 hover:bg-gray-100" onClick={() => redirect("/profile")}>Profile</button>
+                                            <button className="p-2 w-full text-left px-4 py-2 hover:bg-gray-100" onClick={handleProfile}>Profile</button>
                                         </li>
                                         <li>
                                             <button className="p-2 w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center" onClick={handleLogout}>

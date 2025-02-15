@@ -7,7 +7,6 @@ import ClayIcon from "@clayui/icon";
 import ClayMultiSelect from '@clayui/multi-select';
 import SearchLoader from "@/app/ui/components/searching";
 import { useRouter } from 'next/navigation';
-import "@clayui/css/lib/css/atlas.css"
 
 // Define types
 interface Item {

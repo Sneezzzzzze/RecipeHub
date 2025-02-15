@@ -34,7 +34,7 @@ const SignUp_Form: React.FC<SignUpFormProps> = (
                 {/* Name Input */}
                 <input
                     type="text"
-                    placeholder="Full Name"
+                    placeholder="Username"
                     className={`input ${errors.name ? "error" : ""}`}
                     value={name}
                     onKeyDown={handleKeyPress}

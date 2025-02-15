@@ -31,7 +31,7 @@ const SignUpPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string; confirmPassword?: string }>({});
+    const [errors, setErrors] = useState<{ username?: string; email?: string; password?: string; confirmPassword?: string }>({});
     const [loading, setLoading] = useState(false);
     const [loadingTxt, setLoadingTxt] = useState(false);
 
@@ -55,7 +55,7 @@ const SignUpPage = () => {
 
         if (!validation.success) {
             setErrors({
-                name: validation.error.flatten().fieldErrors.name?.[0],
+                username: validation.error.flatten().fieldErrors.name?.[0],
                 email: validation.error.flatten().fieldErrors.email?.[0],
                 password: validation.error.flatten().fieldErrors.password?.[0],
                 confirmPassword: validation.error.flatten().fieldErrors.confirmPassword?.[0],

@@ -53,7 +53,7 @@ const SignInPage = () => {
             setUser(data.user);
         }
         setLoadingTxt(false);
-        router.push("/auth/signin");
+        router.push("/auth/callback");
     };
 
     // Google OAuth Login
