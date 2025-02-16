@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { GoSignOut } from "react-icons/go";
 import { supabase } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 
 export default function Header() {
@@ -12,6 +12,8 @@ export default function Header() {
     const [loading, setLoading] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const router = useRouter();
+    const pathname = usePathname();
+    const isHome = pathname === "/";
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -39,7 +41,7 @@ export default function Header() {
     const handleSignUp = async () => router.push("/auth/signup")
     const handleLogin = async () => router.push("/auth/signin");
     const handleLogout = async () => {
-        router.push("/auth/callback2home")
+        window.location.href = pathname
         await supabase.auth.signOut();
         setIsOpen(false);
         setUser(null);
@@ -60,14 +62,17 @@ export default function Header() {
                     {!user ? (
                         <>
                             <div className="flex">
-                                <button className="text-white font-medium cursor-pointer mx-4">
+                                <button
+                                    onClick={() => router.push("/result")}
+                                    className="text-amber-500 font-medium cursor-pointer mx-4">
                                     Result
                                 </button>
-                                <button className="text-white font-medium cursor-pointer" onClick={handleLogin}>
+                                <button className={`font-medium cursor-pointer ${isHome ? "text-white" : "text-black"}`} onClick={handleLogin}>
                                     Sign In
                                 </button>
-                                <p className="text-white font-medium mb-0 mx-2"> | </p>
-                                <button className="text-white font-medium cursor-pointer" onClick={handleSignUp}>
+
+                                <p className={`font-medium mb-0 mx-2 ${isHome ? "text-white" : "text-black"}`}> | </p>
+                                <button className={`font-medium cursor-pointer ${isHome ? "text-white" : "text-black"}`} onClick={handleSignUp}>
                                     Sign Up
                                 </button>
                             </div>
@@ -76,14 +81,16 @@ export default function Header() {
                     ) : (
                         <>
                             <div className="flex">
-                                <button className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointe mx-4">
+                                <button
+                                    onClick={() => router.push("/result")}
+                                    className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointe mx-4">
                                     Result
                                 </button>
                                 <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none cursor-pointer">
                                     {user?.user_metadata?.avatar_url ? (
                                         <Image width={35} height={35} src={user.user_metadata.avatar_url} alt="Profile" className="rounded-full border border-gray-300 mb-0" />
                                     ) : (
-                                        <FaUserCircle className="text-white w-10 h-10" />
+                                        <FaUserCircle className={`w-10 h-10 ${isHome ? "text-white" : "text-gray-300"}`} />
                                     )}
                                 </button>
                             </div>

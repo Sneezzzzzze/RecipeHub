@@ -7,6 +7,7 @@ import ClayIcon from "@clayui/icon";
 import ClayMultiSelect from '@clayui/multi-select';
 import SearchLoader from "@/app/ui/components/searching";
 import { useRouter } from 'next/navigation';
+import {supabase} from "@/utils/supabase/client";
 
 // Define types
 interface Item {
@@ -20,6 +21,7 @@ export default function Search() {
     const [query, setQuery] = useState<string>("");
     const [items, setItems] = useState<Item[]>([]);
     const [searching, setSearching] = useState(false);
+    const [user, setUser] = useState<any>(null);
     const router = useRouter();
 
     // Source data
@@ -28,10 +30,16 @@ export default function Search() {
         { label: "two", value: "2" },
         { label: "three", value: "3" }
     ];
-
     useEffect(() => {
-        setMounted(true);
         import("@clayui/css/lib/css/atlas.css");
+        setMounted(true);
+        const fetchUser = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                setUser(session.user);
+            }
+        };
+        fetchUser();
     }, []);
 
     const handleSearch = async () => {
@@ -45,7 +53,13 @@ export default function Search() {
             if (!response.ok) throw new Error(`Error: ${response.statusText}`);
 
             const data = await response.json();
-            sessionStorage.setItem('searchData', JSON.stringify(data));
+            if (user?.user_metadata?.sub) {
+                // User is logged in, proceed with storing data in sessionStorage
+                sessionStorage.setItem(`${user.user_metadata.sub}_searchData`, JSON.stringify(data));
+            } else {
+                // User is not logged in, handle accordingly
+                localStorage.setItem("guest_searchData", JSON.stringify(data));
+            }
         } catch (error) {
             console.error("Search failed:", error);
         } finally {
@@ -74,20 +88,34 @@ export default function Search() {
             ) : (
                 <ClayForm.Group>
                     <ClayInput.Group>
-                        <ClayInput.GroupItem>
+                        <ClayInput.GroupItem
+                            style={{
+                                border: "2px solid #FDE047",
+                                boxShadow: "4px 4px #F59E0B",
+                            }}
+                        >
                             <ClayMultiSelect
                                 inputName="searchInput"
                                 items={items}
                                 onChange={setQuery}
                                 onItemsChange={handleItemsChange}
                                 sourceItems={sourceItems}
-                                spritemap="/images/icons.svg"
+                                spritemap="/icons.svg"
                                 value={query}
                             />
                         </ClayInput.GroupItem>
                         <ClayInput.GroupItem shrink>
-                            <ClayButton aria-label="search" displayType="secondary" onClick={handleSearch}>
-                                <ClayIcon symbol="search" spritemap="/images/icons.svg" />
+                            <ClayButton
+                                aria-label="search"
+                                displayType="secondary"
+                                onClick={handleSearch}
+                                style={{
+                                    border: "2px solid #FDE047",
+                                    boxShadow: "4px 4px #F59E0B",
+                                    height: '43.2px'
+                                }}
+                            >
+                                <ClayIcon symbol="search" spritemap="/icons.svg" />
                             </ClayButton>
                         </ClayInput.GroupItem>
                     </ClayInput.Group>
