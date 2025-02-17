@@ -19,8 +19,10 @@ const SignInPage = () => {
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
     const [loadingTxt, setLoadingTxt] = useState(false);
     const [background, setBackground] = useState("");
+    const [mounted, setMounted] = useState(false);
     const router = useRouter()
     useEffect(() => {
+        setMounted(true);
         const fetchUser = async () => {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
@@ -71,6 +73,11 @@ const SignInPage = () => {
             await handleEmailLogin(); // Await the Promise from handleEmailLogin
         }
     };
+
+    if (!mounted) {
+        // Avoid rendering the component before it's mounted to prevent hydration error
+        return null;
+    }
 
     return (
         <>

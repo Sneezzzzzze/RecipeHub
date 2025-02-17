@@ -32,16 +32,19 @@ export default function Result() {
         const fetchUser = async () => {
             try {
                 const { data: { session } } = await supabase.auth.getSession();
-                let storedData = localStorage.getItem("guest_searchData");
 
                 if (session?.user) {
                     setUser(session.user);
-                    storedData = sessionStorage.getItem(`${session.user.user_metadata.sub}_searchData`) || storedData;
+                    // Get user-specific search data from sessionStorage
+                    const storedData = sessionStorage.getItem(`${session.user.user_metadata?.sub}_searchData`);
+                    setData(storedData ? JSON.parse(storedData) : []);
+                } else {
+                    // Get guest search data from localStorage
+                    const guestData = localStorage.getItem("guest_searchData");
+                    setData(guestData ? JSON.parse(guestData) : []);
                 }
-
-                if (storedData) {
-                    const parsedData = JSON.parse(storedData);
-                    setData(parsedData);
+                if (data === null) {
+                    setUser([]);
                 }
             } catch (error) {
                 console.error("Error fetching user session:", error);
@@ -81,7 +84,7 @@ export default function Result() {
         <>
             <Navbar />
             <div className="flex w-full h-[150px] items-center justify-center relative" style={{ backgroundImage: `url("/image-header.png")`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                <Radio name="main" notification={data.length} selectedRadio={selectedRadio} onChange={handleRadioChange} />
+                <Radio name="main" notification={data?.length ?? 0} selectedRadio={selectedRadio} onChange={handleRadioChange} />
             </div>
 
             <div className="flex flex-col lg:flex-row justify-center items-start w-full max-w-screen-xl mx-auto gap-6 p-6">
@@ -96,7 +99,7 @@ export default function Result() {
                                 </div>
                             ))}
                         </div>
-                    ) : data.length > 0 ? (
+                    ) : (data?.length ?? 0) > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {data.map((item) => (
                                 <div
@@ -118,7 +121,7 @@ export default function Result() {
                             ))}
                         </div>
                     ) : (
-                        <p className="text-center">No results found</p>
+                        <p className="mb-8">No results found</p>
                     )}
                 </div>
 
