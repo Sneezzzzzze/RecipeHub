@@ -41,7 +41,7 @@ export default function Header() {
     const handleSignUp = async () => router.push("/auth/signup")
     const handleLogin = async () => router.push("/auth/signin");
     const handleLogout = async () => {
-        window.location.href = pathname
+        router.push(pathname)
         await supabase.auth.signOut();
         setIsOpen(false);
         setUser(null);
