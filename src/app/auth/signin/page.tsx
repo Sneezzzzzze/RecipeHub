@@ -2,10 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase/client";
-import Loading from "@/app/ui/components/loading";
 import SignIn_Form from "@/app/ui/components/signin-form";
 import { z } from "zod";
-import {redirect} from "next/navigation";
+import {useRouter} from "next/navigation";
 
 // Define validation schema
 const loginSchema = z.object({
@@ -18,9 +17,9 @@ const SignInPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-    const [loading, setLoading] = useState(false);
     const [loadingTxt, setLoadingTxt] = useState(false);
     const [background, setBackground] = useState("");
+    const router = useRouter()
     useEffect(() => {
         const fetchUser = async () => {
             const { data: { session } } = await supabase.auth.getSession();
@@ -31,14 +30,6 @@ const SignInPage = () => {
         fetchUser();
         setBackground("url('https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?cs=srgb&dl=pexels-chanwalrus-958545.jpg&fm=jpg')");
     }, []);
-
-    if (loading) {
-        return (
-            <div className="flex h-screen items-center justify-center bg-white">
-                <Loading />
-            </div>
-        );
-    }
 
     // Email & Password Login
     const handleEmailLogin = async () => {
@@ -62,7 +53,7 @@ const SignInPage = () => {
             setUser(data.user);
         }
         setLoadingTxt(false);
-        redirect('/auth/callback')
+        router.push("/auth/callback");
     };
 
     // Google OAuth Login

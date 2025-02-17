@@ -16,12 +16,13 @@ interface SignUpFormProps {
     handleSignUp: () => void;
     handleGoogleSignUp: () => void;
     loadingTxt: boolean;
+    handleKeyPress: (event: React.KeyboardEvent) => void;
 }
 
 const SignUp_Form: React.FC<SignUpFormProps> = (
     {
         name, setName, email, setEmail, password, setPassword, confirmPassword, setConfirmPassword, errors,
-        handleSignUp, handleGoogleSignUp, loadingTxt
+        handleSignUp, handleGoogleSignUp, loadingTxt, handleKeyPress
     }) => {
         const [showPassword, setShowPassword] = useState(false);
         const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -33,9 +34,10 @@ const SignUp_Form: React.FC<SignUpFormProps> = (
                 {/* Name Input */}
                 <input
                     type="text"
-                    placeholder="Full Name"
+                    placeholder="Username"
                     className={`input ${errors.name ? "error" : ""}`}
                     value={name}
+                    onKeyDown={handleKeyPress}
                     onChange={(e) => setName(e.target.value)}
                 />
                 {errors.name && <p className="error-text">{errors.name}</p>}
@@ -46,6 +48,7 @@ const SignUp_Form: React.FC<SignUpFormProps> = (
                     placeholder="Email"
                     className={`input ${errors.email ? "error" : ""}`}
                     value={email}
+                    onKeyDown={handleKeyPress}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 {errors.email && <p className="error-text">{errors.email}</p>}
@@ -57,6 +60,7 @@ const SignUp_Form: React.FC<SignUpFormProps> = (
                         placeholder="Password"
                         className={`input ${errors.password ? "error" : ""}`}
                         value={password}
+                        onKeyDown={handleKeyPress}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
@@ -72,6 +76,7 @@ const SignUp_Form: React.FC<SignUpFormProps> = (
                         placeholder="Confirm Password"
                         className={`input ${errors.confirmPassword ? "error" : ""}`}
                         value={confirmPassword}
+                        onKeyDown={handleKeyPress}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     <span className="eye-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>

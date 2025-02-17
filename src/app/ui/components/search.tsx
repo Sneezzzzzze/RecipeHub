@@ -1,12 +1,13 @@
 'use client';
 
-import "@clayui/css/lib/css/atlas.css";
 import React, { useEffect, useState } from 'react';
 import ClayForm, { ClayInput } from '@clayui/form';
 import ClayButton from '@clayui/button';
 import ClayIcon from "@clayui/icon";
 import ClayMultiSelect from '@clayui/multi-select';
-import {redirect} from "next/navigation";
+import SearchLoader from "@/app/ui/components/searching";
+import { useRouter } from 'next/navigation';
+import {supabase} from "@/utils/supabase/client";
 
 // Define types
 interface Item {
@@ -17,9 +18,11 @@ interface Item {
 export default function Search() {
     // State management
     const [mounted, setMounted] = useState(false);
-    const [query, setQuery] = useState<string>(""); // Renamed from value
+    const [query, setQuery] = useState<string>("");
     const [items, setItems] = useState<Item[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [searching, setSearching] = useState(false);
+    const [user, setUser] = useState<any>(null);
+    const router = useRouter();
 
     // Source data
     const sourceItems: Item[] = [
@@ -27,81 +30,98 @@ export default function Search() {
         { label: "two", value: "2" },
         { label: "three", value: "3" }
     ];
-
-    // Handle client-side mounting
     useEffect(() => {
+        import("@clayui/css/lib/css/atlas.css");
         setMounted(true);
-
+        const fetchUser = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                setUser(session.user);
+            }
+        };
+        fetchUser();
     }, []);
 
     const handleSearch = async () => {
-        // Collect all the selected values from `items`
+        setSearching(true); // Show loading animation
+
         const selectedValues = items.map(item => item.value).join(',+');
         const number = selectedValues.match(/\d+/) || 1;
+
         try {
-            // Make the API request with multiple values as a query parameter
             const response = await fetch(`/api/ingredient-search?name=${selectedValues}&number=${number}`);
             if (!response.ok) throw new Error(`Error: ${response.statusText}`);
 
-            // Parse the fetched data
             const data = await response.json();
-
-
-            sessionStorage.setItem('searchData', JSON.stringify(data));
-
-            // Optionally, update state with the fetched data
-            // setItems(data); // If you want to update the displayed items
+            if (user?.user_metadata?.sub) {
+                // User is logged in, proceed with storing data in sessionStorage
+                sessionStorage.setItem(`${user.user_metadata.sub}_searchData`, JSON.stringify(data));
+            } else {
+                // User is not logged in, handle accordingly
+                localStorage.setItem("guest_searchData", JSON.stringify(data));
+            }
         } catch (error) {
             console.error("Search failed:", error);
         } finally {
-            setLoading(false);
-            redirect('/result');
+            setTimeout(() => {
+                setSearching(false); // Hide loader after 3 seconds
+                router.push("/result")
+            }, 3000);
         }
     };
 
-    // Handle multi-select item changes
     const handleItemsChange = (newItems: Item[]) => {
         setItems(newItems);
     };
 
-    // Early return for SSR
     if (!mounted) {
-        return (
-            <ClayForm.Group>
-                <ClayInput.Group>
-                    <ClayInput.GroupItem>
-                        <div className="form-control"></div>
-                    </ClayInput.GroupItem>
-                </ClayInput.Group>
-            </ClayForm.Group>
-        );
+        // Avoid rendering the component before it's mounted to prevent hydration error
+        return null;
     }
 
     return (
-        <ClayForm.Group>
-            <ClayInput.Group>
-                <ClayInput.GroupItem>
-                    <ClayMultiSelect
-                        inputName="searchInput"
-                        items={items}
-                        onChange={setQuery} // Correctly updating query
-                        onItemsChange={handleItemsChange}
-                        sourceItems={sourceItems}
-                        spritemap="/images/icons.svg"
-                        value={query}
-                    />
-                </ClayInput.GroupItem>
-                <ClayInput.GroupItem shrink>
-                    <ClayButton
-                        aria-label="search"
-                        displayType="secondary"
-                        onClick={
-                        handleSearch
-                        }>
-                        <ClayIcon symbol="search" spritemap="/images/icons.svg" />
-                    </ClayButton>
-                </ClayInput.GroupItem>
-            </ClayInput.Group>
-        </ClayForm.Group>
+        <>
+            {searching ? (
+                <div className="flex justify-center items-center">
+                    <SearchLoader />
+                </div>
+            ) : (
+                <ClayForm.Group>
+                    <ClayInput.Group>
+                        <ClayInput.GroupItem
+                            style={{
+                                border: "2px solid #FDE047",
+                                boxShadow: "4px 4px #F59E0B",
+                            }}
+                        >
+                            <ClayMultiSelect
+                                inputName="searchInput"
+                                items={items}
+                                onChange={setQuery}
+                                onItemsChange={handleItemsChange}
+                                sourceItems={sourceItems}
+                                spritemap="/icons.svg"
+                                value={query}
+                            />
+                        </ClayInput.GroupItem>
+                        <ClayInput.GroupItem shrink>
+                            <ClayButton
+                                aria-label="search"
+                                displayType="secondary"
+                                onClick={handleSearch}
+                                style={{
+                                    border: "2px solid #FDE047",
+                                    boxShadow: "4px 4px #F59E0B",
+                                    height: '43.2px'
+                                }}
+                            >
+                                <ClayIcon symbol="search" spritemap="/icons.svg" />
+                            </ClayButton>
+                        </ClayInput.GroupItem>
+                    </ClayInput.Group>
+                </ClayForm.Group>
+                )
+            }
+        </>
     );
 }

@@ -21,15 +21,17 @@ const signUpSchema = z.object({
 const SignUpPage = () => {
     const [background, setBackground] = useState("");
     const [signUpSuccess, setSignUpSuccess] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         setBackground("url('https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?cs=srgb&dl=pexels-chanwalrus-958545.jpg&fm=jpg')");
     }, []);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string; confirmPassword?: string }>({});
+    const [errors, setErrors] = useState<{ username?: string; email?: string; password?: string; confirmPassword?: string }>({});
     const [loading, setLoading] = useState(false);
     const [loadingTxt, setLoadingTxt] = useState(false);
 
@@ -41,6 +43,11 @@ const SignUpPage = () => {
         );
     }
 
+    if (!mounted) {
+        // Avoid rendering the component before it's mounted to prevent hydration error
+        return null;
+    }
+
     // Email & Password Sign Up
     const handleSignUp = async () => {
         // Validate the form data using the schema
@@ -48,7 +55,7 @@ const SignUpPage = () => {
 
         if (!validation.success) {
             setErrors({
-                name: validation.error.flatten().fieldErrors.name?.[0],
+                username: validation.error.flatten().fieldErrors.name?.[0],
                 email: validation.error.flatten().fieldErrors.email?.[0],
                 password: validation.error.flatten().fieldErrors.password?.[0],
                 confirmPassword: validation.error.flatten().fieldErrors.confirmPassword?.[0],
@@ -66,19 +73,19 @@ const SignUpPage = () => {
                 email,
                 password,
                 options: {
-                    data: { name },
-                },
+                    data: {
+                        username: name,
+                    },
+                }
             });
 
             if (error) {
                 // Handle error from Supabase
                 console.error("Sign-up failed:", error.message);
-                setErrors({ email: error.message });  // Display the error message
+                console.log("gay")
             } else {
-                // Set success state or redirect to the next page
                 setSignUpSuccess(true);
-                // Optionally, redirect to the login page or display a success message
-                // redirect("/auth/login");
+                console.log("Sign-up successful, user data:", data);
             }
         } catch (error) {
             console.error("Unexpected error:", error);
@@ -98,6 +105,13 @@ const SignUpPage = () => {
         });
 
         if (error) console.error("Google sign-up failed:", error.message);
+    };
+
+    const handleKeyPress = async (event: React.KeyboardEvent) => {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent Enter from triggering Google login
+            await handleSignUp(); // Await the Promise from handleEmailLogin
+        }
     };
 
     return (
@@ -122,9 +136,10 @@ const SignUpPage = () => {
                         handleSignUp={handleSignUp}
                         handleGoogleSignUp={handleGoogleSignUp}
                         loadingTxt={loadingTxt}
+                        handleKeyPress={handleKeyPress}
                     />
                     ) : (
-                        <ConfirmSignUp/>
+                        <ConfirmSignUp email={email}/>
                 )}
             </div>
         </>

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabase/client";
+import Loader from "@/app/ui/components/loading"
 
 const Callback = () => {
     const router = useRouter();
@@ -15,16 +16,20 @@ const Callback = () => {
                 console.error("Session retrieval error:", error.message);
             } else if (data?.session) {
                 console.log("User logged in:", data.session.user);
-                router.push("/");
+                setTimeout(() => {
+                    router.push("/");
+                }, 3000)
             } else {
+                setTimeout(() => {
                 router.push("/auth/login");
+                }, 3000)
             }
         };
 
         handleSession();
     }, [router]);
 
-    return <div className="text-center text-black">Logging in...</div>;
+    return <Loader/>;
 };
 
 export default Callback;

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clayui/alert": "^3.111.0",
     "@clayui/button": "^3.116.0",
     "@clayui/card": "^3.127.0",
     "@clayui/css": "^3.127.0",
@@ -27,8 +28,9 @@
     "@tailwindcss/postcss": "^4.0.3",
     "@vercel/analytics": "^1.4.1",
     "@vercel/speed-insights": "^1.1.0",
+    "autoprefixer": "^10.4.20",
     "lint": "^0.8.19",
-    "next": "^15.1.6",
+    "next": "^15.1.7",
     "postcss": "^8.5.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

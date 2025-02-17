@@ -10,7 +10,7 @@ export const metadata: Metadata = {
         template: '%s | RecipeHub',
         default: 'RecipeHub',
     },
-    description: 'RecipeHub is a platform for sharing recipes.',
+    description: 'RecipeHub is a platform Search recipes.',
     metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
 }
 
