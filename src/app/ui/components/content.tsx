@@ -1,5 +1,6 @@
 import React from "react";
-import Navbar from "@/app/ui/components/navbar"
+import Navbar from "@/app/ui/components/navbar";
+
 type ContentProps = React.PropsWithChildren<{
     customProp?: string;
 }>;
@@ -12,13 +13,17 @@ export default function Content({children}: ContentProps) {
                 backgroundImage: `url('https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?cs=srgb&dl=pexels-chanwalrus-958545.jpg&fm=jpg')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
+                maxHeight: '1080px',
+                margin: '0 auto'
             }}
         >
             {/* NavBar */}
-            <Navbar/>
+            <div className="absolute top-0 left-5 right-0 z-20">
+                <Navbar/>
+            </div>
 
-            {/* ฺ Black Overlay */}
-            <div className="absolute inset-0 bg-black opacity-65"></div>
+            {/* Black Overlay */}
+            <div className="absolute inset-0 bg-black opacity-65 z-10"></div>
 
             <div className="flex-1 flex flex-col justify-center px-4 py-10 sm:px-6 md:px-8 lg:px-10 text-wrap z-10">
                 <div className="mx-auto sm:p-8 md:p-10 lg:p-12 rounded-xl">

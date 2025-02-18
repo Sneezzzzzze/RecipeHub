@@ -88,7 +88,7 @@ const Radio = ({ notification, name, selectedRadio, onChange }: RadioProps) => {
                         className="tab"
                         htmlFor={`radio-3-${name}`}
                     >
-                        Tips
+                        Cost
                     </label>
 
                     <span className="glider" style={gliderStyle} />

@@ -6,7 +6,7 @@ export async function GET(req: Request) {
     const number:string | number = searchParams.get("number") || 1;
 
     if (!name) {
-        return NextResponse.json({ error: "Missing ingredient name" }, { status: 400 });
+        return NextResponse.json({ error: "Missing ingredient id" }, { status: 400 });
     }
 
     const apiKey = process.env.SPOONACULAR_API_KEY;

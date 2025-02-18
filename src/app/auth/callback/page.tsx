@@ -7,7 +7,6 @@ import Loader from "@/app/ui/components/loading"
 
 const Callback = () => {
     const router = useRouter();
-
     useEffect(() => {
         const handleSession = async () => {
             const { data, error } = await supabase.auth.getSession();
