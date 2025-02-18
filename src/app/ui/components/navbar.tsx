@@ -66,7 +66,10 @@ export default function Header() {
         <header className="top-5 left-0 right-0 px-4 py-3 z-50 flex-grow flex justify-center">
             <div className="container mx-auto flex items-center justify-between">
                 <div className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointer" onClick={handleHome}>
-                    RecipeHub
+                    <div>
+                        <span style={{ color: 'white' }}>Recipe</span>
+                        <span style={{ color: '#F59E0B' }}>Hub</span>
+                    </div>
                 </div>
                 <div className="relative" ref={dropdownRef}>
                     {!user ? (
