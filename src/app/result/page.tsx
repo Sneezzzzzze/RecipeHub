@@ -26,7 +26,6 @@ export default function Result() {
     const [foodMarkColor, setFoodMarkColor] = useState<{ [key: string]: boolean }>({});
     const [selectedRadio, setSelectedRadio] = useState('ingredients'); // Default to 'ingredients'
     const router = useRouter();
-
     useEffect(() => {
         import ("@clayui/css/lib/css/atlas.css");
         const fetchUser = async () => {
