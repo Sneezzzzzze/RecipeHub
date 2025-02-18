@@ -14,7 +14,8 @@ export default function Header() {
     const [profileImage, setProfileImage] = useState(null);
     const router = useRouter();
     const pathname = usePathname();
-    const isHome = pathname === "/" || "/setting";
+    const isHome = pathname === "/" || pathname === "/setting";
+    console.log(isHome);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -67,7 +68,7 @@ export default function Header() {
             <div className="container mx-auto flex items-center justify-between">
                 <div className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointer" onClick={handleHome}>
                     <div>
-                        <span style={{ color: 'white' }}>Recipe</span>
+                        <span className={`font-medium cursor-pointer ${isHome ? "text-white" : "text-black"}`}>Recipe</span>
                         <span style={{ color: '#F59E0B' }}>Hub</span>
                     </div>
                 </div>
