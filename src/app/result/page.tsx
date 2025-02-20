@@ -9,6 +9,7 @@ import Radio from "@/app/ui/components/ratdio-button"; // Assume Radio component
 import { supabase } from "@/utils/supabase/client";
 import { CiBookmark } from "react-icons/ci";
 import { FaBookmark } from "react-icons/fa";
+import { MdOutlineDelete } from "react-icons/md";
 
 interface FoodItem {
     id: string;
@@ -22,12 +23,15 @@ export default function Result() {
     const [data, setData] = useState<FoodItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
+    const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
     const [bookmarks, setBookmarks] = useState<FoodItem[]>([]);
     const [foodMarkColor, setFoodMarkColor] = useState<{ [key: string]: boolean }>({});
     const [selectedRadio, setSelectedRadio] = useState('ingredients'); // Default to 'ingredients'
     const router = useRouter();
+
     useEffect(() => {
-        import ("@clayui/css/lib/css/atlas.css");
+        import("@clayui/css/lib/css/atlas.css");
+
         const fetchUser = async () => {
             try {
                 const { data: { session } } = await supabase.auth.getSession();
@@ -42,9 +46,6 @@ export default function Result() {
                     const guestData = localStorage.getItem("guest_searchData");
                     setData(guestData ? JSON.parse(guestData) : []);
                 }
-                if (data === null) {
-                    setUser([]);
-                }
             } catch (error) {
                 console.error("Error fetching user session:", error);
             } finally {
@@ -53,25 +54,69 @@ export default function Result() {
         };
 
         fetchUser();
-    }, []);
+    }, []); // Run only on mount
 
-    const handleRadioChange = (value: string) => {
-        setSelectedRadio(value); // Update selected radio
-    };
+// Fetch bookmarks when user is available
+    useEffect(() => {
+        if (!user) return; // Ensure user is set before fetching bookmarks
+
+        const storedBookmarks = user
+            ? sessionStorage.getItem(`${user.user_metadata?.sub}_bookmarks`)
+            : localStorage.getItem("guest_bookmarks");
+
+        if (storedBookmarks) {
+            const parsedBookmarks = JSON.parse(storedBookmarks);
+            setBookmarks(parsedBookmarks);
+
+            // Update foodMarkColor for bookmarked items
+            const bookmarkMap = parsedBookmarks.reduce((acc: { [key: string]: boolean }, item: FoodItem) => {
+                acc[item.id] = true;
+                return acc;
+            }, {});
+            setFoodMarkColor(bookmarkMap);
+        }
+    }, [user]); // Runs when `user` is updated
+
+// Update search results when `data` changes
+    useEffect(() => {
+        setSearchResults(data);
+    }, [data]);
+
+// Merge bookmarks into search results, avoiding duplicates
+    useEffect(() => {
+        setSearchResults((prevResults) => {
+            const mergedMap = new Map();
+
+            // Add search results first
+            prevResults.forEach((item) => mergedMap.set(item.id, item));
+
+            // Add bookmarks (ensuring they stay in results)
+            bookmarks.forEach((bookmark) => mergedMap.set(bookmark.id, bookmark));
+
+            return Array.from(mergedMap.values());
+        });
+    }, [bookmarks]); // Runs when bookmarks change
 
     const handleBookmark = (item: FoodItem, event: React.MouseEvent) => {
-        // Stop the click event from propagating to the parent div
         event.stopPropagation();
         const isBookmarked = foodMarkColor[item.id];
         const updatedBookmarks = isBookmarked
             ? bookmarks.filter((bookmark) => bookmark.id !== item.id)
             : [...bookmarks, item];
 
+        if (user) {
+            sessionStorage.setItem(`${user.user_metadata?.sub}_bookmarks`, JSON.stringify(updatedBookmarks));
+        } else {
+            localStorage.setItem("guest_bookmarks", JSON.stringify(updatedBookmarks));
+        }
+
         setBookmarks(updatedBookmarks);
-        setFoodMarkColor({
-            ...foodMarkColor,
-            [item.id]: !isBookmarked, // Toggle the star color state
-        });
+        setFoodMarkColor({ ...foodMarkColor, [item.id]: !isBookmarked });
+    };
+
+
+    const handleRadioChange = (value: string) => {
+        setSelectedRadio(value); // Update selected radio
     };
 
     const handleClick = (id: string) => {
@@ -125,15 +170,30 @@ export default function Result() {
                 </div>
 
                 <div className="w-full lg:w-1/3">
-                    <h2 className="text-2xl font-bold mb-4">FoodMark</h2>
-                    {/*<Radio name="forbookmark" notification={bookmarks.length} selectedRadio={selectedRadio} onChange={handleRadioChange}/>*/}
-                    <div className="flex flex-col gap-4 mt-4 ml-3">
+                    <h2 className="text-2xl font-bold mb-4 ml-3">FoodMark</h2>
+                    <div className="flex flex-col gap-5 mt-4 ml-3">
                         {bookmarks.map((item, index) => (
-                            <div key={index} className="flex items-center bg-white border-2 border-yellow-300 rounded-lg shadow-md p-2">
-                                <Image width={80} height={80} src={item.image} alt={item.title} className="w-20 h-20 object-cover rounded-lg" />
-                                <div className="ml-4">
-                                    <h3 className="font-semibold">{item.title}</h3>
-                                    <p className="text-sm text-gray-500">{item.category}</p>
+                            <div key={index} className="flex items-center justify-between bg-white border-2 border-yellow-300 rounded-lg shadow-md p-2">
+                                <div className="flex items-center w-full cursor-pointer"
+                                     onClick={() => handleClick(item.id)}
+                                >
+                                    <Image
+                                        width={80}
+                                        height={80}
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="w-20 h-20 object-cover rounded-lg"
+                                    />
+                                    <div className="ml-2">
+                                        <h3 className="font-semibold">{item.title}</h3>
+                                        <p className="text-sm text-gray-500">{item.category}</p>
+                                    </div>
+                                </div>
+
+                                <div className="w-10 h-10 flex items-center justify-center rounded-full cursor-pointer hover:bg-yellow-100">
+                                    <MdOutlineDelete className="w-6 h-6 text-amber-500"
+                                                     onClick={(event) => handleBookmark(item, event)}
+                                    />
                                 </div>
                             </div>
                         ))}

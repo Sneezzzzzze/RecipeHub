@@ -15,7 +15,6 @@ export default function Header() {
     const router = useRouter();
     const pathname = usePathname();
     const isHome = pathname === "/" || pathname === "/setting";
-    console.log(isHome);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
