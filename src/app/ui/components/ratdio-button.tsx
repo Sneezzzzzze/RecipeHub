@@ -78,8 +78,8 @@ const Radio = ({ notification, name, selectedRadio, onChange }: RadioProps) => {
                         type="radio"
                         id={`radio-3-${name}`}
                         name={`tabs-${name}`}
-                        checked={selectedRadio === "Nutrition's"} // Updated condition
-                        onChange={() => handleTabClick(2, "Nutrition's")} // Pass the value on change
+                        checked={selectedRadio === "nutrition"} // Updated condition
+                        onChange={() => handleTabClick(2, "nutrition")} // Pass the value on change
                     />
                     <label
                         ref={(el) => {
@@ -88,7 +88,7 @@ const Radio = ({ notification, name, selectedRadio, onChange }: RadioProps) => {
                         className="tab"
                         htmlFor={`radio-3-${name}`}
                     >
-                        Nutrition's
+                        Nutrition
                     </label>
 
                     <span className="glider" style={gliderStyle} />
