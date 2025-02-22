@@ -56,7 +56,7 @@ export default function Result() {
         fetchUser();
     }, []); // Run only on mount
 
-// Fetch bookmarks when user is available
+    // Fetch bookmarks when user is available
     useEffect(() => {
         if (!user) return; // Ensure user is set before fetching bookmarks
 
@@ -77,12 +77,12 @@ export default function Result() {
         }
     }, [user]); // Runs when `user` is updated
 
-// Update search results when `data` changes
+    // Update search results when `data` changes
     useEffect(() => {
         setSearchResults(data);
     }, [data]);
 
-// Merge bookmarks into search results, avoiding duplicates
+    // Merge bookmarks into search results, avoiding duplicates
     useEffect(() => {
         setSearchResults((prevResults) => {
             const mergedMap = new Map();
@@ -114,14 +114,13 @@ export default function Result() {
         setFoodMarkColor({ ...foodMarkColor, [item.id]: !isBookmarked });
     };
 
-
     const handleRadioChange = (value: string) => {
         setSelectedRadio(value); // Update selected radio
     };
 
-    const handleClick = (id: string) => {
-        // Passing selectedRadio as a query param or using sessionStorage
-        router.push(`/result/${id}?view=${selectedRadio}`);
+    const handleClick = (id: string, title: string) => {
+        // Passing selectedRadio and title (food name) as query params
+        router.push(`/result/${id}?view=${selectedRadio}&name=${encodeURIComponent(title)}`);
     };
 
     return (
@@ -145,11 +144,11 @@ export default function Result() {
                         </div>
                     ) : (data?.length ?? 0) > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            {data.map((item) => (
+                            {searchResults.map((item) => (
                                 <div
                                     key={item.id}
                                     className="relative bg-white border-2 border-[#FDE047] shadow-[4px_4px_#F59E0B] rounded-xl overflow-hidden transition-transform hover:scale-105 cursor-pointer"
-                                     onClick={() => handleClick(item.id)}>
+                                    onClick={() => handleClick(item.id, item.title)}>
                                     <Image width={400} height={250} src={item.image} alt={item.title} className="w-full h-40 object-cover" />
                                     <div className="p-4">
                                         <h2 className="text-lg font-bold">{item.title}</h2>
@@ -175,7 +174,7 @@ export default function Result() {
                         {bookmarks.map((item, index) => (
                             <div key={index} className="flex items-center justify-between bg-white border-2 border-yellow-300 rounded-lg shadow-md p-2">
                                 <div className="flex items-center w-full cursor-pointer"
-                                     onClick={() => handleClick(item.id)}
+                                     onClick={() => handleClick(item.id, item.title)}
                                 >
                                     <Image
                                         width={80}
