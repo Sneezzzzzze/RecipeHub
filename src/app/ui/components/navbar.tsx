@@ -76,6 +76,11 @@ export default function Header() {
                         <>
                             <div className="flex">
                                 <button
+                                    onClick={() => router.push("/docs")}
+                                    className="text-amber-500 font-medium cursor-pointer mx-4">
+                                    doc
+                                </button>
+                                <button
                                     onClick={() => router.push("/result")}
                                     className="text-amber-500 font-medium cursor-pointer mx-4">
                                     Result
@@ -94,6 +99,11 @@ export default function Header() {
                     ) : (
                         <>
                             <div className="flex">
+                                <button
+                                    onClick={() => router.push("/docs")}
+                                    className="text-amber-500 font-medium cursor-pointer mx-4">
+                                    docs
+                                </button>
                                 <button
                                     onClick={() => router.push("/result")}
                                     className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointe mx-4">
