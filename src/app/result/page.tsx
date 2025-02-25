@@ -38,12 +38,12 @@ export default function Result() {
 
                 if (session?.user) {
                     setUser(session.user);
-                    // Get user-specific search data from sessionStorage
-                    const storedData = sessionStorage.getItem(`${session.user.user_metadata?.sub}_searchData`);
+                    // Get user-specific search data from localStorage
+                    const storedData = localStorage.getItem(`${session.user.user_metadata?.sub}_searchData`);
                     setData(storedData ? JSON.parse(storedData) : []);
                 } else {
-                    // Get guest search data from localStorage
-                    const guestData = localStorage.getItem("guest_searchData");
+                    // Get guest search data from sessionStorage
+                    const guestData = sessionStorage.getItem("guest_searchData");
                     setData(guestData ? JSON.parse(guestData) : []);
                 }
             } catch (error) {
@@ -58,22 +58,40 @@ export default function Result() {
 
     // Fetch bookmarks when user is available
     useEffect(() => {
-        if (!user) return; // Ensure user is set before fetching bookmarks
+        if (!user) {
+            // Handle guest (unauthenticated) user bookmarks from localStorage
+            const storedBookmarks = localStorage.getItem("guest_bookmarks");
+            if (storedBookmarks) {
+                const parsedBookmarks = JSON.parse(storedBookmarks);
+                setBookmarks(parsedBookmarks);
 
-        const storedBookmarks = user
-            ? sessionStorage.getItem(`${user.user_metadata?.sub}_bookmarks`)
-            : localStorage.getItem("guest_bookmarks");
+                // Update foodMarkColor for bookmarked items
+                const bookmarkMap = parsedBookmarks.reduce((acc: { [key: string]: boolean }, item: FoodItem) => {
+                    acc[item.id] = true;
+                    return acc;
+                }, {});
+                setFoodMarkColor(bookmarkMap);
+            } else {
+                setBookmarks([]); // Reset bookmarks if none exist
+                setFoodMarkColor({});
+            }
+        } else {
+            // Handle authenticated user bookmarks from sessionStorage
+            const storedBookmarks = sessionStorage.getItem(`${user.user_metadata?.sub}_bookmarks`);
+            if (storedBookmarks) {
+                const parsedBookmarks = JSON.parse(storedBookmarks);
+                setBookmarks(parsedBookmarks);
 
-        if (storedBookmarks) {
-            const parsedBookmarks = JSON.parse(storedBookmarks);
-            setBookmarks(parsedBookmarks);
-
-            // Update foodMarkColor for bookmarked items
-            const bookmarkMap = parsedBookmarks.reduce((acc: { [key: string]: boolean }, item: FoodItem) => {
-                acc[item.id] = true;
-                return acc;
-            }, {});
-            setFoodMarkColor(bookmarkMap);
+                // Update foodMarkColor for bookmarked items
+                const bookmarkMap = parsedBookmarks.reduce((acc: { [key: string]: boolean }, item: FoodItem) => {
+                    acc[item.id] = true;
+                    return acc;
+                }, {});
+                setFoodMarkColor(bookmarkMap);
+            } else {
+                setBookmarks([]); // Reset bookmarks if none exist
+                setFoodMarkColor({});
+            }
         }
     }, [user]); // Runs when `user` is updated
 

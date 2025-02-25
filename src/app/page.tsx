@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <Content>
         <div className="text-6xl sm:text-6xl md:text-7xl lg:text-8xl text-amber-500 mb-[10px] text-center">
-          <div className="h-[150px]">
+          <div className="h-auto">
             <div>
               <span style={{ color: 'white' }}>Recipe</span>
               <span style={{ color: '#F59E0B' }}>Hub</span>
