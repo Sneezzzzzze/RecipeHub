@@ -1,5 +1,6 @@
 import React from "react";
 import ButtonTW from "@/app/ui/components/button";
+import Link from "next/link";
 
 export default function ConfirmSignUp ({ email }: { email: string }) {
     const extractEmailProvider = (email: string): string | null => {
@@ -35,6 +36,7 @@ export default function ConfirmSignUp ({ email }: { email: string }) {
                 }}>
                     Go to {provider}
                 </ButtonTW>
+                <Link href={`/`} className="text-amber-500">Go to Home</Link>
             </div>
         </>
     );

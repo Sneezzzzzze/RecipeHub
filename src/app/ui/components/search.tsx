@@ -7,6 +7,7 @@ import ClayIcon from "@clayui/icon";
 import ClayMultiSelect from '@clayui/multi-select';
 import SearchLoader from "@/app/ui/components/searching";
 import SearchRadio from "@/app/ui/components/search-radio-button"; // Fixed import name
+import SearchRadioForNonUser from "@/app/ui/components/search-radio-for-non-user";
 import { useRouter } from 'next/navigation';
 import { supabase } from "@/utils/supabase/client";
 
@@ -48,17 +49,28 @@ export default function Search() {
                 if (!response.ok) throw new Error(`Fetch failed: ${response.statusText}`);
 
                 data = await response.json();
+
             } else if (selectedRadio === 'random') {
                 const selectedValues = items.map(item => item.value).join(',+');
                 const number = selectedValues.match(/\d+/)?.[0] || 1;
-                const url = `/api/randomMode?number=${number}`; // Removed unnecessary & before number
+                const url = `/api/randomMode`; // Removed unnecessary & before number
                 const response = await fetch(url);
                 if (!response.ok) throw new Error(`Fetch failed: ${response.statusText}`);
 
                 const rawData = await response.json();
                 data = rawData.recipes || [];
-            } else {
-                return; // Exit early if mode isn’t recognized
+
+            } else if (selectedRadio === "normal") {
+                const selectedValues = items.map(item => item.value).join(',+');
+                const number = selectedValues.match(/\d+/)?.[0] || 1;
+                const url = `/api/normalMode?query=${selectedValues}&number${number}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Fetch failed: ${response.statusText}`);
+
+                const rawData = await response.json();
+                console.log(rawData.results)
+                data = rawData.results || [];
+                console.log(data)
             }
             // Store data based on user status
             if (user?.user_metadata?.sub) {
@@ -141,10 +153,17 @@ export default function Search() {
                         </ClayInput.Group>
                     </ClayForm.Group>
                     <div className="w-full flex justify-end">
-                        <SearchRadio
-                            selectedRadio={selectedRadio}
-                            onChange={handleRadioChange}
-                        />
+                        {user ?(
+                            <SearchRadio
+                                selectedRadio={selectedRadio}
+                                onChange={handleRadioChange}
+                            />
+                        ) : (
+                            <SearchRadioForNonUser
+                                selectedRadio={selectedRadio}
+                                onChange={handleRadioChange}
+                            />
+                        )}
                     </div>
                 </>
             )}

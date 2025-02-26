@@ -55,7 +55,7 @@ export default function Result() {
 
         fetchUser();
     }, []); // Run only on mount
-
+    console.log(data)
     // Fetch bookmarks when user is available
     useEffect(() => {
         if (!user) {
@@ -140,7 +140,6 @@ export default function Result() {
         // Passing selectedRadio and title (food name) as query params
         router.push(`/result/${id}?view=${selectedRadio}&name=${encodeURIComponent(title)}`);
     };
-
     return (
         <>
             <Navbar />

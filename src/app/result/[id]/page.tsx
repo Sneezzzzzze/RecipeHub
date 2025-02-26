@@ -69,6 +69,7 @@ export default function ResultDetail() {
                 if (view === 'ingredients') {
                     const response = await fetch(`/api/ingredientById?id=${id}`);
                     const result = await response.json();
+                    console.log(result)
                     setIngredient(Array.isArray(result.ingredients) ? result.ingredients : []);
                     setLoading(false); // Stop loading when fetch completes
                 } else if (view === 'how-to-make') {
@@ -101,74 +102,11 @@ export default function ResultDetail() {
         <div className="bg-gray-300 animate-pulse rounded-lg h-40 w-full border border-yellow-300"></div>
     );
 
-    // Skeleton Component for Chart (Nutrition)
-    const SkeletonChart = () => (
-        <div className="bg-gray-300 animate-pulse rounded-lg h-[400px] w-full"></div>
-    );
 
     // Skeleton Component for Instructions (List Items)
     const SkeletonListItem = () => (
         <div className="bg-gray-200 animate-pulse h-10 rounded"></div>
     );
-
-    // Chart Data for Nutrition (with Units in Tooltips)
-    const nutritionChartData = {
-        labels: nutrition?.nutrients?.map((nutrient: any) =>
-            `${nutrient.name} ${nutrient.unit || ''}`.trim()
-        ) || [],
-        datasets: [
-            {
-                label: 'Nutrient Amount',
-                data: nutrition?.nutrients?.map((nutrient: any) => nutrient.amount) || [],
-                backgroundColor: 'rgba(255, 159, 64, 0.5)',
-                borderColor: 'rgba(255, 159, 64, 1)',
-                borderWidth: 1,
-            },
-        ],
-    };
-
-    // Chart Options (with Units in Tooltips)
-    const chartOptions = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top' as const,
-            },
-            title: {
-                display: true,
-                text: 'Nutrition Facts',
-                font: {
-                    size: 18,
-                },
-            },
-            tooltip: {
-                callbacks: {
-                    label: (context: any) => {
-                        const label = context.label || '';
-                        const value = context.raw || 0;
-                        const nutrient = nutrition?.nutrients?.find((n: any) => `${n.name} ${n.unit || ''}`.trim() === label);
-                        const unit = nutrient?.unit || '';
-                        return `${label}: ${value} ${unit}`;
-                    },
-                },
-            },
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Amount',
-                },
-            },
-            x: {
-                title: {
-                    display: true,
-                    text: 'Nutrients',
-                },
-            },
-        },
-    };
 
     return (
         <>
@@ -186,28 +124,32 @@ export default function ResultDetail() {
                             </div>
                         ) : ingredient.length > 0 ? (
                             <div className="grid grid-cols-2 sm:grid-cols-2 gap-6">
-                                {ingredient
-                                    .filter((item) => item.name !== 'toothpicks')
-                                    .map((item) => (
-                                        <div
-                                            key={item.name}
-                                            className="relative bg-white border-2 border-[#FDE047] shadow-[4px_4px_#F59E0B] rounded-xl overflow-hidden transition-transform hover:scale-105 cursor-pointer"
-                                        >
-                                            <Image
-                                                width={100}
-                                                height={100}
-                                                src={ingredientImgPath + item.image}
-                                                alt={item.name}
-                                                className="w-40 h-40 object-cover"
-                                            />
-                                            <div className="p-3">
-                                                <h2 className="text-lg font-bold">{item.name}</h2>
-                                                <p className="text-sm text-gray-500">
-                                                    {item.amount?.metric.value} {item.amount?.metric.unit || 'units'}
-                                                </p>
-                                            </div>
+                                {Array.from(
+                                    new Map(
+                                        ingredient
+                                            .map((item) => [item.name, item]) // Map to [name, item] pairs
+                                    ).values() // Get unique items by name
+                                ).map((item) => (
+                                    <div
+                                        key={item.name}
+                                        className="relative bg-white border-2 border-[#FDE047] shadow-[4px_4px_#F59E0B] rounded-xl overflow-hidden transition-transform hover:scale-105 cursor-pointer"
+                                    >
+                                        <Image
+                                            width={100}
+                                            height={100}
+                                            src={item.image && item.image !== "no.jpg" ? `${ingredientImgPath}${item.image}` : "/no.png"}
+                                            alt={item.name}
+                                            className="w-40 h-40 object-cover"
+                                            onError={(e) => (e.currentTarget.src = "/no.png")} // Fallback if image fails
+                                        />
+                                        <div className="p-3">
+                                            <h2 className="text-lg font-bold">{item.name}</h2>
+                                            <p className="text-sm text-gray-500">
+                                                {item.amount?.metric.value} {item.amount?.metric.unit || 'units'}
+                                            </p>
                                         </div>
-                                    ))}
+                                    </div>
+                                ))}
                             </div>
                         ) : (
                             <p>No ingredients available</p>
