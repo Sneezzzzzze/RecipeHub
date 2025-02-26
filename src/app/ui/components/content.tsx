@@ -8,13 +8,11 @@ type ContentProps = React.PropsWithChildren<{
 export default function Content({children}: ContentProps) {
     return (
         <div
-            className="flex flex-col min-h-screen sm:justify-center sm:py-12 md:py-16 lg:py-20 text-wrap shadow-lg relative"
+            className="flex flex-col min-h-fit sm:justify-center sm:py-12 md:py-16 lg:py-20 text-wrap shadow-lg relative"
             style={{
-                backgroundImage: `url('https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?cs=srgb&dl=pexels-chanwalrus-958545.jpg&fm=jpg')`,
+                backgroundImage: `url('https://www.ucsfhealth.org/-/media/project/ucsf/ucsf-health/education/hero/top-ten-foods-for-health-2x.jpg?rev=890e0016d9824d5789d4eaa610ce606e')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                maxHeight: '1080px',
-                margin: '0 auto'
             }}
         >
             {/* NavBar */}

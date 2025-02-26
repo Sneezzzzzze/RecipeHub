@@ -1,16 +1,15 @@
+// search-radio-button.tsx
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 interface RadioProps {
-    notification: number;
-    name: string;
     selectedRadio: string;
-    onChange: (value: string) => void; // Add this prop to handle the change
+    onChange: (value: string) => void;
 }
 
-const Radio = ({ notification, name, selectedRadio, onChange }: RadioProps) => {
+const SearchRadio = ({ selectedRadio, onChange }: RadioProps) => {
     const [gliderStyle, setGliderStyle] = useState({ width: "0px", left: "0px" });
-    const [activeTabIndex, setActiveTabIndex] = useState(0); // Track active tab index
+    const [activeTabIndex, setActiveTabIndex] = useState(0);
     const tabsRef = useRef<HTMLLabelElement[]>([]);
 
     useEffect(() => {
@@ -23,72 +22,67 @@ const Radio = ({ notification, name, selectedRadio, onChange }: RadioProps) => {
                 });
             }
         };
-
-        // Default active tab
         updateGlider(activeTabIndex);
-    }, [activeTabIndex]); // Update glider style only when activeTabIndex changes
+    }, [activeTabIndex]);
 
     const handleTabClick = (index: number, value: string) => {
-        setActiveTabIndex(index); // Update active tab index
-        onChange(value); // Pass selected value to parent
+        setActiveTabIndex(index);
+        onChange(value);
     };
 
     return (
         <StyledWrapper>
             <div className="container">
                 <div className="tabs">
-                    {/* Tab 1 */}
                     <input
                         type="radio"
-                        id={`radio-1-${name}`}
-                        name={`tabs-${name}`}
-                        checked={selectedRadio === "ingredients"} // Updated condition
-                        onChange={() => handleTabClick(0, "ingredients")} // Pass the value on change
+                        id="radio-1"
+                        name="tabs-search"
+                        checked={selectedRadio === "normal"}
+                        onChange={() => handleTabClick(0, "normal")}
                     />
                     <label
                         ref={(el) => {
                             if (el) tabsRef.current[0] = el;
                         }}
                         className="tab"
-                        htmlFor={`radio-1-${name}`}
+                        htmlFor="radio-1"
                     >
-                        Ingredients<span className="notification">{notification}</span>
+                        Normal
                     </label>
 
-                    {/* Tab 2 */}
                     <input
                         type="radio"
-                        id={`radio-2-${name}`}
-                        name={`tabs-${name}`}
-                        checked={selectedRadio === "how-to-make"} // Updated condition
-                        onChange={() => handleTabClick(1, "how-to-make")} // Pass the value on change
+                        id="radio-2"
+                        name="tabs-search"
+                        checked={selectedRadio === "ingredient"}
+                        onChange={() => handleTabClick(1, "ingredient")}
                     />
                     <label
                         ref={(el) => {
                             if (el) tabsRef.current[1] = el;
                         }}
                         className="tab"
-                        htmlFor={`radio-2-${name}`}
+                        htmlFor="radio-2"
                     >
-                        How to Make
+                        Ingredient
                     </label>
 
-                    {/* Tab 3 */}
                     <input
                         type="radio"
-                        id={`radio-3-${name}`}
-                        name={`tabs-${name}`}
-                        checked={selectedRadio === "nutrition"} // Updated condition
-                        onChange={() => handleTabClick(2, "nutrition")} // Pass the value on change
+                        id="radio-3"
+                        name="tabs-search"
+                        checked={selectedRadio === "random"}
+                        onChange={() => handleTabClick(2, "random")}
                     />
                     <label
                         ref={(el) => {
                             if (el) tabsRef.current[2] = el;
                         }}
                         className="tab"
-                        htmlFor={`radio-3-${name}`}
+                        htmlFor="radio-3"
                     >
-                        Nutrition
+                        Random
                     </label>
 
                     <span className="glider" style={gliderStyle} />
@@ -121,33 +115,17 @@ const StyledWrapper = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0 12px;
+        padding: 0 10px;
         height: 30px;
         font-size: 0.8rem;
         color: black;
         font-weight: 500;
         border-radius: 99px;
-        margin-right: 2px;
         cursor: pointer;
         transition: color 0.15s ease-in;
         position: relative;
     }
-
-    .notification {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 0.8rem;
-        height: 0.8rem;
-        position: absolute;
-        top: 0px;
-        right: -1px;
-        font-size: 10px;
-        border-radius: 50%;
-        background-color: #e6eef9;
-        transition: 0.15s ease-in;
-    }
-
+    
     .container input[type="radio"]:checked + label {
         color: #f59e0b;
     }
@@ -174,4 +152,4 @@ const StyledWrapper = styled.div`
     }
 `;
 
-export default Radio;
+export default SearchRadio;
