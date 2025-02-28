@@ -20,7 +20,7 @@ const Callback2Path = () => {
             }, 3000);
         };
         handleSession();
-    }, [searchParams]);
+    }, []);
 
     return <Suspense fallback={<Loader />}/>
 };
