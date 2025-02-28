@@ -90,7 +90,7 @@ export default function Header() {
     const handleLogin = async () => router.push("/auth/signin");
     const handleLogout = async () => {
         await supabase.auth.signOut();
-        router.push(pathname);
+        router.push(`/auth/callback2path?path=${pathname}`);
         setIsOpen(false);
         setUser(null);
     };
@@ -155,9 +155,13 @@ export default function Header() {
                                         width={35}
                                         height={35}
                                         className="w-10 h-10 rounded-full border-3 border-transparent hover:border-amber-500 transition-colors duration-200 object-cover"
-                                        src={profileImage ? `${profileImage}?t=${imageTimestamp || Date.now()}` :
-                                            user?.user_metadata?.avatar_url ||
-                                            '/default.jpg'}
+                                        src={
+                                            user?.user_metadata?.avatar_url
+                                                ? user.user_metadata?.avatar_url
+                                                : profileImage
+                                                    ? `${profileImage}?t=${imageTimestamp || Date.now()}`
+                                                    : '/default.jpg'
+                                        }
                                         priority
                                         onError={(e) => {
                                             const target = e.target as HTMLImageElement;
