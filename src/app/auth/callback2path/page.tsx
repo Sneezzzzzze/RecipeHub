@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import {Suspense, useEffect} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "@/app/ui/components/loading";
 
@@ -22,7 +22,7 @@ const Callback2Path = () => {
         handleSession();
     }, [searchParams]);
 
-    return <Loader />;
+    return <Suspense fallback={<Loader />}/>
 };
 
 export default Callback2Path;
