@@ -22,7 +22,7 @@ const Callback2Path = () => {
         handleSession();
     }, []);
 
-    return <Suspense fallback={<Loader />}/>
+    return <Suspense fallback={<Loader />}> <Loader/> </Suspense>;
 };
 
 export default Callback2Path;
