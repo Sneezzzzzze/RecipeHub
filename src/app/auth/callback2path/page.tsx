@@ -3,6 +3,9 @@ import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "@/app/ui/components/loading";
 
+// Prevent static generation since this is a dynamic callback
+export const dynamic = "force-dynamic";
+
 const Callback2Path = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -23,4 +26,3 @@ const Callback2Path = () => {
 };
 
 export default Callback2Path;
-
