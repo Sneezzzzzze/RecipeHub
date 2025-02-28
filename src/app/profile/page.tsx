@@ -275,21 +275,23 @@ export default function Profile() {
                                 Profile Details
                             </button>
                         </li>
-                        <li>
-                            <button
-                                onClick={() => setSelectedSetting("change-password")}
-                                className={`w-full text-left px-4 py-3 text-[#323232] rounded-lg text-lg transition-all mb-2 ${
-                                    selectedSetting === "change-password" ? "bg-amber-500 text-white" : "hover:bg-gray-200"
-                                }`}
-                            >
-                                Change Password
-                            </button>
-                        </li>
+                        {!user?.user_metadata?.avatar_url && (
+                            <li>
+                                <button
+                                    onClick={() => setSelectedSetting("change-password")}
+                                    className={`w-full text-left px-4 py-3 text-[#323232] rounded-lg text-lg transition-all mb-2 ${
+                                        selectedSetting === "change-password" ? "bg-amber-500 text-white" : "hover:bg-gray-200"
+                                    }`}
+                                >
+                                    Change Password
+                                </button>
+                            </li>
+                            )}
                         <li>
                             <button
                                 onClick={() => setSelectedSetting("nm-setting")}
                                 className={`w-full text-left px-4 py-3 text-[#323232] rounded-lg text-lg transition-all mb-2 ${
-                                    selectedSetting === "change-password" ? "bg-amber-500 text-white" : "hover:bg-gray-200"
+                                    selectedSetting === "nm-setting" ? "bg-amber-500 text-white" : "hover:bg-gray-200"
                                 }`}
                             >
                                 Normal Mode Setting
@@ -369,9 +371,11 @@ export default function Profile() {
                                                 height={150}
                                                 className="w-40 h-40 rounded-full border-5 border-amber-500 mb-4 mx-auto object-cover cursor-pointer"
                                                 src={
-                                                    profileImageUrl ? `${profileImageUrl}?t=${imageTimestamp || Date.now()}` :
-                                                        user?.user_metadata?.avatar_url ||
-                                                        '/default.jpg'
+                                                    user?.user_metadata?.avatar_url
+                                                        ? user?.user_metadata?.avatar_url
+                                                        : profileImageUrl
+                                                            ? `${profileImageUrl}?t=${imageTimestamp || Date.now()}`
+                                                            : '/default.jpg'
                                                 }
                                                 priority
                                                 onError={(e) => {
@@ -393,7 +397,7 @@ export default function Profile() {
                                 <form className="space-y-4">
                                     <div className="relative">
                                         <p className="text-lg">DISPLAY NAME : </p>
-                                        <p className="px-4">{user?.user_metadata?.username}</p>
+                                        <p className="px-4">{user?.user_metadata?.username || user?.user_metadata?.name}</p>
                                     </div>
 
                                     <div className="relative">
