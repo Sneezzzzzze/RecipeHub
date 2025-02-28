@@ -1,24 +1,11 @@
-"use client";
-
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import Callback2Path from "./Callback2Path"; // 클라이언트 컴포넌트
 import Loader from "@/app/ui/components/loading";
 
-const Callback2Path = () => {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const path = searchParams.get("path") || "/"; // Get path from URL, default to "/"
-
-    useEffect(() => {
-        const handleSession = async () => {
-            setTimeout(() => {
-                router.push(path);
-            }, 3000);
-        };
-        handleSession();
-    }, [path]); // Depend on path
-
-    return <Loader />;
-};
-
-export default Callback2Path;
+export default function Page() {
+    return (
+        <Suspense fallback={<Loader />}>
+            <Callback2Path />
+        </Suspense>
+    );
+}

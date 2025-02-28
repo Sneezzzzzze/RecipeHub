@@ -92,7 +92,7 @@ export default function Header() {
         await supabase.auth.signOut();
 
         // Redirect to callback2path with current pathname
-        const redirectPath = encodeURIComponent(pathname || "/"); // Fallback to "/" if pathname is undefined
+        const redirectPath = encodeURIComponent(pathname || "/"); // 안전한 기본값
         router.push(`/auth/callback2path?path=${redirectPath}`);
 
         setIsOpen(false);
