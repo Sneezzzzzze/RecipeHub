@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect, useRef } from "react";
-import { FaUserCircle } from "react-icons/fa";
 import { GoSignOut } from "react-icons/go";
 import { supabase } from "@/utils/supabase/client";
 import { useRouter, usePathname } from "next/navigation";
@@ -15,6 +14,7 @@ export default function Header() {
     const [imageTimestamp, setImageTimestamp] = useState(Date.now()); // For cache busting
     const router = useRouter();
     const pathname = usePathname();
+    const [loading, setLoading] = useState(false);
     const isHome = pathname === "/" || pathname === "/profile";
 
     useEffect(() => {
@@ -64,6 +64,9 @@ export default function Header() {
             supabase.removeChannel(channel);
         };
     }, [user]); // Runs whenever the `user` state changes
+
+
+
     // Add a function to fetch profile image
     const fetchProfileImage = async (userId: string) => {
         if (!userId) return;
@@ -90,11 +93,7 @@ export default function Header() {
     const handleLogin = async () => router.push("/auth/signin");
     const handleLogout = async () => {
         await supabase.auth.signOut();
-
-        // Redirect to callback2path with current pathname
-        const redirectPath = encodeURIComponent(pathname || "/"); // 안전한 기본값
-        router.push(`/auth/callback2path?path=${redirectPath}`);
-
+        router.push(`/auth/callback2path?pathname=${pathname}`);
         setIsOpen(false);
         setUser(null);
     };
@@ -102,6 +101,7 @@ export default function Header() {
         router.push("/");
     };
     const handleProfile = async () => router.push("/profile")
+
 
     return (
         <header className="top-5 left-0 right-0 px-4 py-3 z-50 flex-grow flex justify-center">

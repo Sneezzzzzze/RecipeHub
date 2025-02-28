@@ -1,11 +1,26 @@
-import { Suspense } from "react";
-import Callback2Path from "@/app/auth/callback2path/Callback2Path"; // 클라이언트 컴포넌트
+"use client";
+import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "@/app/ui/components/loading";
 
-export default function Page() {
-    return (
-        <Suspense fallback={<Loader />}>
-            <Callback2Path />
-        </Suspense>
-    );
-}
+const Callback2Path = () => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const handleSession = async () => {
+            // Get the pathname from query parameters, default to "/" if not provided
+            const pathname = searchParams.get("pathname") || "/";
+
+            setTimeout(() => {
+                router.push(pathname);
+            }, 3000);
+        };
+        handleSession();
+    }, [searchParams]);
+
+    return <Loader />;
+};
+
+export default Callback2Path;
+
