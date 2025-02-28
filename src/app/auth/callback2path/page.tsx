@@ -1,12 +1,9 @@
 "use client";
 import {Suspense, useEffect} from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import Loader from "@/app/ui/components/loading";
 
-// Prevent static generation since this is a dynamic callback
-export const dynamic = "force-dynamic";
-
-const Callback2Path = () => {
+const Callback2PathContent = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -20,9 +17,18 @@ const Callback2Path = () => {
             }, 3000);
         };
         handleSession();
-    }, []);
+    }, [router, searchParams]);
 
-    return <Suspense fallback={<Loader />}> <Loader/> </Suspense>;
+    return <Loader />;
+};
+
+// Main component with Suspense
+const Callback2Path = () => {
+    return (
+        <Suspense fallback={<Loader />}>
+            <Callback2PathContent />
+        </Suspense>
+    );
 };
 
 export default Callback2Path;
