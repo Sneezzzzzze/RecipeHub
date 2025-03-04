@@ -16,6 +16,8 @@ export default function Header() {
     const pathname = usePathname();
     const [loading, setLoading] = useState(false);
     const isHome = pathname === "/" || pathname === "/profile";
+    const [scrolled, setScrolled] = useState(false);
+
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -64,6 +66,22 @@ export default function Header() {
             supabase.removeChannel(channel);
         };
     }, [user]); // Runs whenever the `user` state changes
+    
+    // scorll check
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 100) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
+    
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
 
 
@@ -104,12 +122,12 @@ export default function Header() {
 
 
     return (
+        <div className={`sticky top-0 left-0 right-0 z-20 transition-colors duration-300 ${scrolled ? 'bg-amber-100' : 'bg-transparent'}`}>
         <header className="top-5 left-0 right-0 px-4 py-3 z-50 flex-grow flex justify-center">
             <div className="container mx-auto flex items-center justify-between">
                 <div className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointer" onClick={handleHome}>
                     <div>
-                        <span className={`font-medium cursor-pointer ${isHome ? "text-white" : "text-black"}`}>Recipe</span>
-                        <span style={{ color: '#F59E0B' }}>Hub</span>
+                        <span className="font-medium cursor-pointer text-amber-700 ">RecipeHub</span>
                     </div>
                 </div>
                 <div className="relative" ref={dropdownRef}>
@@ -118,12 +136,12 @@ export default function Header() {
                             <div className="flex">
                                 <button
                                     onClick={() => router.push("/docs")}
-                                    className="text-amber-500 font-medium cursor-pointer mx-4">
+                                    className="text-amber-500 font-medium cursor-pointer mx-2 hover:text-amber-800">
                                     doc
                                 </button>
                                 <button
                                     onClick={() => router.push("/result")}
-                                    className="text-amber-500 font-medium cursor-pointer mx-4">
+                                    className="text-amber-500 font-medium cursor-pointer mx-4 hover:text-amber-800">
                                     Result
                                 </button>
                                 <button className={`font-medium cursor-pointer ${isHome ? "text-white" : "text-black"}`} onClick={handleLogin}>
@@ -142,12 +160,12 @@ export default function Header() {
                             <div className="flex">
                                 <button
                                     onClick={() => router.push("/docs")}
-                                    className="text-amber-500 font-medium cursor-pointer mx-4">
+                                    className="text-amber-500 font-medium cursor-pointer mx-2 hover:text-amber-800">
                                     docs
                                 </button>
                                 <button
                                     onClick={() => router.push("/result")}
-                                    className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointe mx-4">
+                                    className="text-xl sm:text-2xl font-semibold text-amber-500 cursor-pointe mx-4 hover:text-amber-800">
                                     Result
                                 </button>
                                 <button
@@ -193,5 +211,6 @@ export default function Header() {
                 </div>
             </div>
         </header>
+        </div>
     );
 }

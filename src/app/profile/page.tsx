@@ -1,10 +1,10 @@
-"use client";
+'use client';
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import Alert from "@clayui/alert";
 import Image from "next/image";
-import {FaEye, FaEyeSlash} from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Navbar from "@/app/ui/components/navbar";
 import Dropdown from "@/app/ui/components/dropdown";
 
@@ -26,10 +26,10 @@ export default function Profile() {
     const [imageTimestamp, setImageTimestamp] = useState(Date.now()); // Add timestamp for cache busting
     const router = useRouter();
     const [preferences, setPreferences] = useState({
-            cuisine: "",
-            mealType: "",
-            diet: "",
-            intolerances: "",
+        cuisine: "",
+        mealType: "",
+        diet: "",
+        intolerances: "",
     });
 
     useEffect(() => {
@@ -95,7 +95,6 @@ export default function Profile() {
         setProfileImageUrl(data?.publicUrl || "/default.jpg");
     };
 
-
     const handleUpdatePassword = async (e: React.FormEvent) => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {
@@ -138,7 +137,6 @@ export default function Profile() {
             setAlertDisplayType("danger");
         }
     };
-
 
     const handleAutoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -248,7 +246,9 @@ export default function Profile() {
                 backgroundPosition: 'center',
             }}
         >
-            <Navbar key={imageTimestamp} /> {/* Add key prop to force re-render */}
+            <div className="bg-amber-100">
+                <Navbar key={imageTimestamp} /> {/* Add key prop to force re-render */}
+            </div>
             <div className="relative w-full">
                 {alertMessage && (
                     <div className="absolute top-0 left-0 right-0 flex justify-center z-10 transition-opacity duration-300 ease-in-out opacity-100">
@@ -261,16 +261,15 @@ export default function Profile() {
                     </div>
                 )}
             </div>
-            <div className="flex flex-1 p-6">
-                <div className="w-1/4 bg-amber-100 text-[#323232] p-6 rounded-3xl">
-                    <h2 className="text-3xl font-bold mb-6">Settings</h2>
-                    <ul className="space-y-4">
+            <div className="flex flex-1 p-6 flex-col lg:flex-row">
+                <div className="w-full lg:w-1/3 bg-amber-100 text-[#323232] p-4 rounded-3xl my-4 lg:mb-0">
+                    <div className="text-3xl font-bold mb-4">Settings</div>
+                    <ul className="space-y-3">
                         <li>
                             <button
                                 onClick={() => setSelectedSetting("profile-details")}
-                                className={`w-full text-left px-4 py-3 text-[#323232] rounded-lg text-lg transition-all mb-2 ${
-                                    selectedSetting === "profile-details" ? "bg-amber-500 text-white" : "hover:bg-gray-200"
-                                }`}
+                                className={`w-full text-left px-3 py-2 text-[#323232] rounded-lg text-lg transition-all mb-2 ${selectedSetting === "profile-details" ? "bg-amber-500 text-white" : "hover:bg-gray-200"
+                                    }`}
                             >
                                 Profile Details
                             </button>
@@ -279,20 +278,18 @@ export default function Profile() {
                             <li>
                                 <button
                                     onClick={() => setSelectedSetting("change-password")}
-                                    className={`w-full text-left px-4 py-3 text-[#323232] rounded-lg text-lg transition-all mb-2 ${
-                                        selectedSetting === "change-password" ? "bg-amber-500 text-white" : "hover:bg-gray-200"
-                                    }`}
+                                    className={`w-full text-left px-3 py-2 text-[#323232] rounded-lg text-lg transition-all mb-2 ${selectedSetting === "change-password" ? "bg-amber-500 text-white" : "hover:bg-gray-200"
+                                        }`}
                                 >
                                     Change Password
                                 </button>
                             </li>
-                            )}
+                        )}
                         <li>
                             <button
                                 onClick={() => setSelectedSetting("nm-setting")}
-                                className={`w-full text-left px-4 py-3 text-[#323232] rounded-lg text-lg transition-all mb-2 ${
-                                    selectedSetting === "nm-setting" ? "bg-amber-500 text-white" : "hover:bg-gray-200"
-                                }`}
+                                className={`w-full text-left px-3 py-2 text-[#323232] rounded-lg text-lg transition-all mb-2 ${selectedSetting === "nm-setting" ? "bg-amber-500 text-white" : "hover:bg-gray-200"
+                                    }`}
                             >
                                 Normal Mode Setting
                             </button>
@@ -301,8 +298,8 @@ export default function Profile() {
                 </div>
                 <div className="mx-4"></div>
                 {/* Main Content */}
-                <div className="w-3/4 p-10 flex flex-col items-center justify-center bg-amber-100 bg-opacity-90 rounded-3xl">
-                    <div className="w-full max-w-lg flex flex-col h-full bg-white p-6 rounded-3xl border-2 border-gray-300">
+                <div className="w-full lg:w-3/4 p-4 lg:p-8 flex flex-col items-center justify-center bg-amber-100 bg-opacity-90 rounded-3xl">
+                    <div className="w-full max-w-lg flex flex-col h-full bg-white p-4 rounded-3xl border-2 border-gray-300">
                         {/* Change Password Section */}
                         {selectedSetting === "change-password" && (
                             <div className="flex-1 h-full">
@@ -332,7 +329,7 @@ export default function Profile() {
                                             className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                                             onClick={() => setShowPassword(!showPassword)}
                                         >
-                                          {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
                                         </span>
                                     </div>
 
@@ -348,7 +345,7 @@ export default function Profile() {
                                             className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                                             onClick={() => setShowPassword(!showPassword)}
                                         >
-                                          {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
                                         </span>
                                     </div>
 
@@ -363,13 +360,13 @@ export default function Profile() {
                         {selectedSetting === "profile-details" && (
                             <div className="flex-1 h-full">
                                 <form onSubmit={(e) => e.preventDefault()}>
-                                    <div className="relative w-40 h-40 mx-auto mb-4">
+                                    <div className="relative w-32 h-32 mx-auto mb-4">
                                         <label htmlFor="profileImageUpload" className="cursor-pointer w-full h-full flex items-center justify-center">
                                             <Image
                                                 alt="Profile Image"
-                                                width={150}
-                                                height={150}
-                                                className="w-40 h-40 rounded-full border-5 border-amber-500 mb-4 mx-auto object-cover cursor-pointer"
+                                                width={128}
+                                                height={128}
+                                                className="w-32 h-32 rounded-full border-5 border-amber-500 mb-4 mx-auto object-cover cursor-pointer"
                                                 src={
                                                     user?.user_metadata?.avatar_url
                                                         ? user?.user_metadata?.avatar_url

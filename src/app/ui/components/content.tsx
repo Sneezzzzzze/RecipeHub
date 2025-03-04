@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "@/app/ui/components/navbar";
 
 type ContentProps = React.PropsWithChildren<{
     customProp?: string;
 }>;
 
-export default function Content({children}: ContentProps) {
+export default function Content({ children }: ContentProps) {
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 100) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
     return (
         <div
             className="flex flex-col min-h-fit sm:justify-center sm:py-12 md:py-16 lg:py-20 text-wrap shadow-lg relative"
@@ -16,9 +33,7 @@ export default function Content({children}: ContentProps) {
             }}
         >
             {/* NavBar */}
-            <div className="absolute top-0 left-5 right-0 z-20">
-                <Navbar/>
-            </div>
+            <Navbar />
 
             {/* Black Overlay */}
             <div className="absolute inset-0 bg-black opacity-65 z-10"></div>
