@@ -26,7 +26,7 @@ export default function Home() {
           <Search />
         </div>
       </Content>
-      <div className="flex justify-center space-x-8 my-8 gap-8">
+      <div className="flex flex-wrap justify-center space-x-0 sm:space-x-8 my-8 gap-8">
         <DetailCard
           title="Join Community"
           description="Connect with other food lovers, share tips, and get inspired by their creations"
