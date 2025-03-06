@@ -111,7 +111,7 @@ export default function Header() {
     const handleLogin = async () => router.push("/auth/signin");
     const handleLogout = async () => {
         await supabase.auth.signOut();
-        router.push(`/auth/callback2path?pathname=${pathname}`);
+        router.push(`/auth/callback2home`);
         setIsOpen(false);
         setUser(null);
     };
