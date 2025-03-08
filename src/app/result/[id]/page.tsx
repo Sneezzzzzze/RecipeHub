@@ -69,7 +69,6 @@ export default function ResultDetail() {
                 if (view === 'ingredients') {
                     const response = await fetch(`/api/ingredientById?id=${id}`);
                     const result = await response.json();
-                    console.log(result)
                     setIngredient(Array.isArray(result.ingredients) ? result.ingredients : []);
                     setLoading(false); // Stop loading when fetch completes
                 } else if (view === 'how-to-make') {

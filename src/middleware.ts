@@ -18,7 +18,6 @@ export async function middleware(req: NextRequest) {
     return supabaseResponse;
 }
 
-// 🔥 TEST: Apply to ALL Routes
 export const config = {
-    matcher: ["/setting", "/profile"], // Match all routes
+    matcher: ["/profile"], // Match all routes
 };
