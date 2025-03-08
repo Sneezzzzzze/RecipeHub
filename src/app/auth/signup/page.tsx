@@ -82,13 +82,10 @@ const SignUpPage = () => {
             if (error) {
                 // Handle error from Supabase
                 console.error("Sign-up failed:", error.message);
-                console.log("gay")
             } else {
                 setSignUpSuccess(true);
-                console.log("Sign-up successful, user data:", data);
             }
         } catch (error) {
-            console.error("Unexpected error:", error);
             setErrors({ email: "An unexpected error occurred. Please try again." });
         } finally {
             // Set loading state to false after the process

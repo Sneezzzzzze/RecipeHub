@@ -14,13 +14,12 @@ const Callback = () => {
             if (error) {
                 console.error("Session retrieval error:", error.message);
             } else if (data?.session) {
-                console.log("User logged in:", data.session.user);
                 setTimeout(() => {
                     router.push("/");
                 }, 3000)
             } else {
                 setTimeout(() => {
-                router.push("/auth/login");
+                router.push("/auth/signin");
                 }, 3000)
             }
         };
