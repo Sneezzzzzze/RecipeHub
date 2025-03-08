@@ -68,9 +68,7 @@ export default function Search() {
                 if (!response.ok) throw new Error(`Fetch failed: ${response.statusText}`);
 
                 const rawData = await response.json();
-                console.log(rawData.results)
                 data = rawData.results || [];
-                console.log(data)
             }
             // Store data based on user status
             if (user?.user_metadata?.sub) {
@@ -141,10 +139,13 @@ export default function Search() {
                                     aria-label="search"
                                     displayType="secondary"
                                     onClick={handleSearch}
+                                    disabled={(selectedRadio === 'normal' && !query.trim()) || (selectedRadio === 'ingredient' && items.length === 0)}
                                     style={{
                                         border: "2px solid #FDE047",
                                         boxShadow: "4px 4px #F59E0B",
-                                        height: '43.2px'
+                                        height: '43.2px',
+                                        opacity: (selectedRadio === 'normal' && !query.trim()) || (selectedRadio === 'ingredient' && items.length === 0) ? 0.5 : 1, // Optional: Change opacity when disabled
+                                        cursor: (selectedRadio === 'normal' && !query.trim()) || (selectedRadio === 'ingredient' && items.length === 0) ? 'not-allowed' : 'pointer'
                                     }}
                                 >
                                     <ClayIcon symbol="search" spritemap="/icons.svg" />
