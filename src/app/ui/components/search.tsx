@@ -53,7 +53,7 @@ export default function Search() {
             } else if (selectedRadio === 'random') {
                 const selectedValues = items.map(item => item.value).join(',+');
                 const number = selectedValues.match(/\d+/)?.[0] || 1;
-                const url = `/api/randomMode`; // Removed unnecessary & before number
+                const url = `/api/randomMode?number=${number}`; // Removed unnecessary & before number
                 const response = await fetch(url);
                 if (!response.ok) throw new Error(`Fetch failed: ${response.statusText}`);
 
