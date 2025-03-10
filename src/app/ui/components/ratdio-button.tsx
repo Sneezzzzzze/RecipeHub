@@ -5,18 +5,39 @@ interface RadioProps {
     notification: number;
     name: string;
     selectedRadio: string;
-    onChange: (value: string) => void; // Add this prop to handle the change
+    onChange: (value: string) => void;
 }
 
 const Radio = ({ notification, name, selectedRadio, onChange }: RadioProps) => {
     const [gliderStyle, setGliderStyle] = useState({ width: "0px", left: "0px" });
-    const [activeTabIndex, setActiveTabIndex] = useState(0); // Track active tab index
+    const [activeTabIndex, setActiveTabIndex] = useState(0);
     const tabsRef = useRef<HTMLLabelElement[]>([]);
 
+    // Map selectedRadio to the correct index
+    const getIndexFromSelectedRadio = (value: string) => {
+        switch (value) {
+            case "ingredients":
+                return 0;
+            case "how-to-make":
+                return 1;
+            case "nutrition":
+                return 2;
+            default:
+                return 0; // Default to first tab
+        }
+    };
+
+    // Sync activeTabIndex with selectedRadio on mount and when selectedRadio changes
     useEffect(() => {
-        const updateGlider = (index: number) => {
-            if (tabsRef.current[index]) {
-                const tab = tabsRef.current[index];
+        const index = getIndexFromSelectedRadio(selectedRadio);
+        setActiveTabIndex(index);
+    }, [selectedRadio]);
+
+    // Update glider position when activeTabIndex changes or on mount
+    useEffect(() => {
+        const updateGlider = () => {
+            const tab = tabsRef.current[activeTabIndex];
+            if (tab) {
                 setGliderStyle({
                     width: `${tab.offsetWidth}px`,
                     left: `${tab.offsetLeft}px`,
@@ -24,26 +45,31 @@ const Radio = ({ notification, name, selectedRadio, onChange }: RadioProps) => {
             }
         };
 
-        // Default active tab
-        updateGlider(activeTabIndex);
-    }, [activeTabIndex]); // Update glider style only when activeTabIndex changes
+        // Ensure DOM is fully rendered before calculating
+        requestAnimationFrame(() => {
+            updateGlider();
+        });
+
+        // Add resize listener to handle window resizing
+        window.addEventListener("resize", updateGlider);
+        return () => window.removeEventListener("resize", updateGlider);
+    }, [activeTabIndex]);
 
     const handleTabClick = (index: number, value: string) => {
-        setActiveTabIndex(index); // Update active tab index
-        onChange(value); // Pass selected value to parent
+        setActiveTabIndex(index);
+        onChange(value);
     };
 
     return (
         <StyledWrapper>
             <div className="container">
                 <div className="tabs">
-                    {/* Tab 1 */}
                     <input
                         type="radio"
                         id={`radio-1-${name}`}
                         name={`tabs-${name}`}
-                        checked={selectedRadio === "ingredients"} // Updated condition
-                        onChange={() => handleTabClick(0, "ingredients")} // Pass the value on change
+                        checked={selectedRadio === "ingredients"}
+                        onChange={() => handleTabClick(0, "ingredients")}
                     />
                     <label
                         ref={(el) => {
@@ -55,13 +81,12 @@ const Radio = ({ notification, name, selectedRadio, onChange }: RadioProps) => {
                         Ingredients<span className="notification">{notification}</span>
                     </label>
 
-                    {/* Tab 2 */}
                     <input
                         type="radio"
                         id={`radio-2-${name}`}
                         name={`tabs-${name}`}
-                        checked={selectedRadio === "how-to-make"} // Updated condition
-                        onChange={() => handleTabClick(1, "how-to-make")} // Pass the value on change
+                        checked={selectedRadio === "how-to-make"}
+                        onChange={() => handleTabClick(1, "how-to-make")}
                     />
                     <label
                         ref={(el) => {
@@ -73,13 +98,12 @@ const Radio = ({ notification, name, selectedRadio, onChange }: RadioProps) => {
                         How to Make
                     </label>
 
-                    {/* Tab 3 */}
                     <input
                         type="radio"
                         id={`radio-3-${name}`}
                         name={`tabs-${name}`}
-                        checked={selectedRadio === "nutrition"} // Updated condition
-                        onChange={() => handleTabClick(2, "nutrition")} // Pass the value on change
+                        checked={selectedRadio === "nutrition"}
+                        onChange={() => handleTabClick(2, "nutrition")}
                     />
                     <label
                         ref={(el) => {
