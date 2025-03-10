@@ -106,8 +106,12 @@ export default function Docs() {
                                 Search the recipe that you want and choose Cuisine, Meal Type, Diet, Intolerances in the profile and you can turn on/off.
                             </p>
                             <p className="text-red-600 px-3 sm:px-4 text-sm sm:text-base mb-4">
-                                IF YOU TYPE WRONG IT MIGHT SHOW "RESULT NOT FOUND"
+                                IF YOU TYPE WRONG IT MIGHT SHOW &#34;RESULT NOT FOUND&#34;
                             </p>
+                            <div className="flex flex-wrap items-center space-x-2 sm:space-x-4 px-3 sm:px-4 mt-2">
+                                <p className="mr-2 p-1 text-sm sm:text-base">ex.</p>
+                                <p className="bg-gray-200 mr-2 p-1 rounded-lg text-sm sm:text-base">pasta</p>
+                            </div>
                         </li>
                         <hr className="bg-[#FDE047] h-0.5 w-full my-4" />
                         <li className="mb-8">
@@ -116,7 +120,7 @@ export default function Docs() {
                                 Search the item by ingredient that you have and choose the amount that you want to search.
                             </p>
                             <p className="text-red-600 px-3 sm:px-4 text-sm sm:text-base mb-4">
-                                IF YOU TYPE WRONG IT MIGHT SHOW "RESULT NOT FOUND"
+                                IF YOU TYPE WRONG IT MIGHT SHOW &#34;RESULT NOT FOUND&#34;
                             </p>
                             <div className="flex flex-wrap items-center space-x-2 sm:space-x-4 px-3 sm:px-4 mt-2">
                                 <p className="mr-2 p-1 text-sm sm:text-base">ex.</p>
@@ -132,6 +136,10 @@ export default function Docs() {
                             <p className="px-3 sm:px-4 text-sm sm:text-base mb-4">
                                 Get a random recipe suggestion based on your preferences.
                             </p>
+                            <div className="flex flex-wrap items-center space-x-2 sm:space-x-4 px-3 sm:px-4 mt-2">
+                                <p className="mr-2 p-1 text-sm sm:text-base">ex.</p>
+                                <p className="bg-gray-200 mr-2 p-1 rounded-lg text-sm sm:text-base">3</p>
+                            </div>
                         </li>
                     </ul>
                 </div>
