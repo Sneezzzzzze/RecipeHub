@@ -27,11 +27,17 @@ export default function Result() {
     const [bookmarks, setBookmarks] = useState<FoodItem[]>([]);
     const [foodMarkColor, setFoodMarkColor] = useState<{ [key: string]: boolean }>({});
     const [selectedRadio, setSelectedRadio] = useState('ingredients'); // Default to 'ingredients'
+    const [isCssLoaded, setIsCssLoaded] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-        import("@clayui/css/lib/css/atlas.css");
+        import("@clayui/css/lib/css/atlas.css").then(() => {
+            setIsCssLoaded(true);
+        });
+    }, []);
 
+
+    useEffect(() => {
         const fetchUser = async () => {
             try {
                 const { data: { session } } = await supabase.auth.getSession();
@@ -114,6 +120,8 @@ export default function Result() {
             return Array.from(mergedMap.values());
         });
     }, [bookmarks]); // Runs when bookmarks change
+
+    if (!isCssLoaded) return null; // Prevent rendering until CSS is loaded
 
     const handleBookmark = (item: FoodItem, event: React.MouseEvent) => {
         event.stopPropagation();
