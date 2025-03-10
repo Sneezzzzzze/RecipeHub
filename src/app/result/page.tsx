@@ -27,7 +27,12 @@ export default function Result() {
     const [bookmarks, setBookmarks] = useState<FoodItem[]>([]);
     const [foodMarkColor, setFoodMarkColor] = useState<{ [key: string]: boolean }>({});
     const [selectedRadio, setSelectedRadio] = useState('ingredients'); // Default to 'ingredients'
+    const [mounted, setMounted] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         import("@clayui/css/lib/css/atlas.css");
@@ -55,9 +60,9 @@ export default function Result() {
 
         fetchUser();
     }, []); // Run only on mount
-    console.log(data)
     // Fetch bookmarks when user is available
     useEffect(() => {
+        if (!mounted) return;
         if (!user) {
             // Handle guest (unauthenticated) user bookmarks from localStorage
             const storedBookmarks = localStorage.getItem("guest_bookmarks");
@@ -102,6 +107,7 @@ export default function Result() {
 
     // Merge bookmarks into search results, avoiding duplicates
     useEffect(() => {
+        if (!mounted) return;
         setSearchResults((prevResults) => {
             const mergedMap = new Map();
 
