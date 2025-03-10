@@ -1,4 +1,8 @@
-// search-radio-button.tsx
+The issue with the radio button not working correctly when the page is refreshed might be due to the `activeTabIndex` not being initialized correctly based on the `selectedRadio` prop. 
+
+You can update the `useEffect` hook to set the `activeTabIndex` based on the `selectedRadio` value when the component mounts. Here's an updated version of your `SearchRadio` component:
+
+```tsx
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
@@ -13,6 +17,10 @@ const SearchRadio = ({ selectedRadio, onChange }: RadioProps) => {
     const tabsRef = useRef<HTMLLabelElement[]>([]);
 
     useEffect(() => {
+        // Set the active tab index based on the selectedRadio value
+        const index = ["normal", "ingredient", "random"].indexOf(selectedRadio);
+        setActiveTabIndex(index);
+
         const updateGlider = (index: number) => {
             if (tabsRef.current[index]) {
                 const tab = tabsRef.current[index];
@@ -22,8 +30,8 @@ const SearchRadio = ({ selectedRadio, onChange }: RadioProps) => {
                 });
             }
         };
-        updateGlider(activeTabIndex);
-    }, [activeTabIndex]);
+        updateGlider(index);
+    }, [selectedRadio]);
 
     const handleTabClick = (index: number, value: string) => {
         setActiveTabIndex(index);
@@ -153,3 +161,6 @@ const StyledWrapper = styled.div`
 `;
 
 export default SearchRadio;
+```
+
+This should ensure that the glider and the active tab are correctly set based on the `selectedRadio` value when the page is refreshed.
