@@ -21,6 +21,7 @@
     "@clayui/multi-select": "^3.128.3",
     "@clayui/nav": "^3.127.0",
     "@heroicons/react": "^2.2.0",
+    "@sentry/nextjs": "^10",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/ssr": "^0.5.2",
